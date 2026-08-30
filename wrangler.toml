@@ -1,0 +1,17 @@
+name = "tls-suggester-api"
+main = "worker/index.ts"
+compatibility_date = "2026-08-30"
+compatibility_flags = ["nodejs_compat"]
+
+# D1 database
+[[d1_databases]]
+binding = "DB"
+database_name = "tls-events"
+database_id = "REPLACE_WITH_D1_ID_after_wrangler_d1_create"
+
+[vars]
+OIDC_ISSUER = "https://auth.tls.local/application/o/tls-suggester/"
+OIDC_JWKS_URL = "https://auth.tls.local/application/o/tls-suggester/.well-known/jwks.json"
+OIDC_AUDIENCE = "tls-suggester"
+
+# Pages (static React) deploy separately: `wrangler pages deploy dist`

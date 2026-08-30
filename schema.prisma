@@ -1,0 +1,106 @@
+// Prisma schema for Cloudflare D1 (SQLite)
+// Works on edge via @prisma/adapter-d1 or Drizzle alternative (see drizzle/schema.ts)
+// provider = sqlite so it runs on D1 without Postgres
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL") // file:./dev.db locally, D1 binding in prod
+}
+
+// SQLite has no enums — Prisma emulates with TEXT check constraints
+// Keep enums for type safety in client
+enum Category {
+  GLOBAL
+  PHILIPPINES
+  MANILA
+  DLSU
+  TLS
+}
+
+enum DateLogic {
+  fixed
+  fixed_local
+  fixed_month
+  movable_nth
+  movable_liturgical
+  movable_lunar
+  movable
+  tba_government
+  tba_academic
+  undated // NEW: no month/day, pool-only (e.g. Start of Term 1)
+  tba
+}
+
+model Event {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  title            String
+  description      String?
+  category         Category
+  subcategory      String?
+  logic            DateLogic
+  // Month is now nullable to support undated pool events
+  month            Int?     // 1-12, null = undated / pool-only
+  day              Int?
+  ruleJson         String?  // JSON stringified (SQLite no native Json)
+  tbaSource        String?
+  isTba            Boolean  @default(false)
+  isUndated        Boolean  @default(false) // duplicate flag for query speed
+  foundedYear      Int?
+  foundedDate      String?  // ISO string (SQLite no DateTime)
+  foundedAuthority String?
+  relevanceTier    String?
+  typeOfVisual     String?
+  sourceUrl        String?
+  notionUrl        String?
+  tags             String?  // JSON stringified array
+  createdAt        String   @default(dbgenerated("datetime('now')"))
+  updatedAt        String   @updatedAt
+  picks            MonthlyPick[]
+  occurrences      EventOccurrence[]
+}
+
+model EventOccurrence {
+  id          String @id @default(cuid())
+  eventId     String
+  event       Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  year        Int
+  date        String // ISO date, null handled via isTba; SQLite
+  isTba       Boolean
+  isMilestone Boolean
+  anniversary Int?
+  prioScore   Int?   // 0-100 anniversary priority for sorting
+  @@unique([eventId, year])
+}
+
+model MonthlyIssue {
+  id        String   @id @default(cuid())
+  year      Int
+  month     Int
+  status    String   @default("draft") // draft | picking | locked | published
+  version   Int      @default(1) // optimistic locking for shared state
+  createdAt String   @default(dbgenerated("datetime('now')"))
+  updatedAt String   @updatedAt
+  picks     MonthlyPick[]
+  @@unique([year, month])
+}
+
+model MonthlyPick {
+  id       String       @id @default(cuid())
+  issueId  String
+  issue    MonthlyIssue @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  eventId  String
+  event    Event        @relation(fields: [eventId], references: [id])
+  status   String       @default("picked") // picked | deferred | done
+  priority Int?
+  deadline String?
+  artist   String?
+  notes    String?
+  addedBy  String? // Authentik sub/email
+  @@unique([issueId, eventId])
+}

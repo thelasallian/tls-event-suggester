@@ -1,0 +1,29 @@
+{
+  "name": "tls-event-suggester",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "worker:dev": "wrangler dev worker/index.ts --local --d1 DB=tls-events",
+    "db:create": "wrangler d1 create tls-events",
+    "db:migrate": "wrangler d1 migrations apply tls-events"
+  },
+  "dependencies": {
+    "hono": "^4.7.0",
+    "drizzle-orm": "^0.38.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "react-router-dom": "^6.26.0",
+    "react-oidc-context": "^3.1.0",
+    "oidc-client-ts": "^3.0.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "wrangler": "^3.80.0",
+    "drizzle-kit": "^0.30.0",
+    "@cloudflare/workers-types": "^4.20240801.0",
+    "typescript": "^5.6.0"
+  }
+}

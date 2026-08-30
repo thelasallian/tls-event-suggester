@@ -1,0 +1,1507 @@
+{
+  "existing_139_count": 140,
+  "new_46_count": 45,
+  "total": 185,
+  "existing": [
+    {
+      "month": "AUGUST",
+      "event": "International Cat Day",
+      "date": "2026-08-08 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "AUGUST",
+      "event": "Signing of PhilSA into law",
+      "date": "2026-08-08 00:00:00",
+      "logic": "fixed",
+      "founded": 2019,
+      "anniv2026": 7,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "AUGUST",
+      "event": "Founding of ASEAN",
+      "date": "2026-08-08 00:00:00",
+      "logic": "fixed",
+      "founded": 1967,
+      "anniv2026": 59,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "AUGUST",
+      "event": "International Day of the World's Indigenous People",
+      "date": "2026-08-09 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "AUGUST",
+      "event": "International Youth Day",
+      "date": "2026-08-12 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "AUGUST",
+      "event": "International Comfort Women Memorial Day",
+      "date": "2026-08-14 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "AUGUST",
+      "event": "Feast of the Assumption",
+      "date": "2026-08-15 00:00:00",
+      "logic": "fixed",
+      "founded": 1950,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "AUGUST",
+      "event": "Ninoy Aquino Day",
+      "date": "2026-08-21 00:00:00",
+      "logic": "tba-government",
+      "rule": "RA9256 fixed Aug21 but movable via annual Proclamation (2024 moved to Aug23)",
+      "founded": 1983,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "AUGUST",
+      "event": "International Day of Remembrance and Tribute to the Victims of Terrorism",
+      "date": "2026-08-21 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "AUGUST",
+      "event": "International Day for the Remembrance of the Slave Trade and Abolition",
+      "date": "2026-08-23 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "AUGUST",
+      "event": "International Day Against Nuclear Tests",
+      "date": "2026-08-29 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "AUGUST",
+      "event": "International Overdose Awareness Day",
+      "date": "2026-08-31 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "AUGUST",
+      "event": "National Heroes' Day",
+      "date": "2026-08-31 00:00:00",
+      "logic": "movable-nth",
+      "rule": "Last Monday August per RA9492",
+      "founded": 1931,
+      "note": "Sheet Aug31 correct for 2026 but logic is nth",
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JULY",
+      "event": "Anniversary of Anti-Terror Law's Passing",
+      "date": "2026-07-03 00:00:00",
+      "logic": "fixed",
+      "founded": 2020,
+      "anniv2026": 6,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JULY",
+      "event": "Philippine Republic Day",
+      "date": "2026-07-04 00:00:00",
+      "logic": "fixed",
+      "founded": 1946,
+      "anniv2026": 80,
+      "note": "No longer Independence since RA4166 1964",
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JULY",
+      "event": "Anniversary of Dolly the Sheep",
+      "date": "2026-07-05 00:00:00",
+      "logic": "fixed",
+      "founded": 1996,
+      "anniv2026": 30,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JULY",
+      "event": "Founding of KKK",
+      "date": "2026-07-07 00:00:00",
+      "logic": "fixed",
+      "founded": 1892,
+      "anniv2026": 134,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JULY",
+      "event": "Arbitration Ruling in favor of PH",
+      "date": "2026-07-12 00:00:00",
+      "logic": "fixed",
+      "founded": 2016,
+      "anniv2026": 10,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JULY",
+      "event": "World Day for International Justice",
+      "date": "2026-07-17 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "JULY",
+      "event": "Space Exploration Day",
+      "date": "2026-07-20 00:00:00",
+      "logic": "fixed",
+      "founded": 1969,
+      "anniv2026": 57,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JULY",
+      "event": "National Campus Press Freedom Day",
+      "date": "2026-07-25 00:00:00",
+      "logic": "fixed",
+      "founded": 1931,
+      "anniv2026": 95,
+      "note": "Law RA11440 2019; founding CEGP 1931",
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JULY",
+      "event": "International Day of Friendship",
+      "date": "2026-07-30 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "JULY",
+      "event": "World Day Against Human Trafficking",
+      "date": "2026-07-30 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "JUNE",
+      "event": "International Dinosaur Day",
+      "date": "2026-06-01 00:00:00",
+      "logic": "fixed",
+      "founded": 2016,
+      "note": "Jun1 fixed + 3rd Tuesday May variant exists",
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JUNE",
+      "event": "World Ocean Day",
+      "date": "2026-06-08 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "JUNE",
+      "event": "Feast of the Sacred Heart",
+      "date": "2026-06-12 00:00:00",
+      "logic": "movable-liturgical",
+      "rule": "19 days after Pentecost (68 after Easter)",
+      "founded": 1675,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JUNE",
+      "event": "Independence Day",
+      "date": "2026-06-12 00:00:00",
+      "logic": "fixed",
+      "founded": 1898,
+      "anniv2026": 128,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JUNE",
+      "event": "Founding of DLSU",
+      "date": "2026-06-16 00:00:00",
+      "logic": "fixed",
+      "founded": 1911,
+      "anniv2026": 115,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JUNE",
+      "event": "Father's Day",
+      "date": "2026-06-21 00:00:00",
+      "logic": "movable-nth",
+      "rule": "3rd Sunday June",
+      "founded": 1910,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JUNE",
+      "event": "Manila Day",
+      "date": "2026-06-24 00:00:00",
+      "logic": "fixed-local",
+      "rule": "Fixed Jun24 but Manila-only Special Non-Working",
+      "founded": 1571,
+      "anniv2026": 455,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JUNE",
+      "event": "Pride Month",
+      "date": "2026-06-30 00:00:00",
+      "logic": "fixed-month",
+      "rule": "Whole June",
+      "founded": 1969,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "MAY",
+      "event": "World Press Freedom Day",
+      "date": "2026-05-03 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": null,
+      "event": "Start of Term 3",
+      "date": "2026-05-11 00:00:00",
+      "logic": "undated",
+      "rule": "DLSU academic calendar",
+      "isUndated": true,
+      "day": null,
+      "tbaSource": "DLSU Academic Calendar",
+      "category": "GLOBAL"
+    },
+    {
+      "month": "MAY",
+      "event": "Star Wars Day",
+      "date": "2026-05-04 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "MAY",
+      "event": "World Red Cross and Red Crescent Day",
+      "date": "2026-05-08 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "MAY",
+      "event": "World Migratory Bird Day",
+      "date": "2026-05-09 00:00:00",
+      "logic": "movable",
+      "rule": "2nd Saturday May + 2nd Saturday Oct",
+      "founded": 2006,
+      "note": "Biannual, not fixed May 9 only; Oct 10 2026 is 2nd peak",
+      "category": "GLOBAL"
+    },
+    {
+      "month": "MAY",
+      "event": "Mothers Day",
+      "date": "2026-05-10 00:00:00",
+      "logic": "movable-nth",
+      "rule": "2nd Sunday May",
+      "founded": 1908,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "MAY",
+      "event": "International Nurses Day",
+      "date": "2026-05-12 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "MAY",
+      "event": "International Day of Families",
+      "date": "2026-05-15 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "MAY",
+      "event": "International Day against Homophobia, Transphobia, and Biphobia",
+      "date": "2026-05-17 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "MAY",
+      "event": "Global Accessibility Awareness Day",
+      "date": "2026-05-21 00:00:00",
+      "logic": "movable-nth",
+      "rule": "3rd Thursday May",
+      "founded": 2012,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "MAY",
+      "event": "International Day for Biological Diversity",
+      "date": "2026-05-22 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "MAY",
+      "event": "Pentecost",
+      "date": "2026-05-24 00:00:00",
+      "logic": "movable-liturgical",
+      "rule": "49 days after Easter",
+      "founded": 33,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "APRIL",
+      "event": "April Fools'",
+      "date": "2026-04-01 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "APRIL",
+      "event": "Maundy Thursday",
+      "date": "2026-04-02 00:00:00",
+      "logic": "movable-liturgical",
+      "rule": "Thursday before Easter",
+      "founded": 325,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "APRIL",
+      "event": "Good Friday",
+      "date": "2026-04-03 00:00:00",
+      "logic": "movable-liturgical",
+      "rule": "Friday before Easter",
+      "founded": 325,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "APRIL",
+      "event": "Black Saturday",
+      "date": "2026-04-04 00:00:00",
+      "logic": "movable-liturgical",
+      "rule": "Saturday before Easter",
+      "founded": 325,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "APRIL",
+      "event": "Easter Sunday",
+      "date": "2026-04-05 00:00:00",
+      "logic": "movable-liturgical",
+      "rule": "First Sunday after Paschal Full Moon (Mar22-Apr25)",
+      "founded": 325,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "APRIL",
+      "event": "Araw ng Kagitingan",
+      "date": "2026-04-09 00:00:00",
+      "logic": "fixed",
+      "founded": 1942,
+      "anniv2026": 84,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "APRIL",
+      "event": "Universal Day of Culture",
+      "date": "2026-04-15 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "APRIL",
+      "event": "World Creativity and Innovation Day",
+      "date": "2026-04-21 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "APRIL",
+      "event": "International Mother Earth Day",
+      "date": "2026-04-22 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "APRIL",
+      "event": "Lapu-Lapu Day",
+      "date": "2026-04-27 00:00:00",
+      "logic": "fixed",
+      "founded": 1521,
+      "anniv2026": 505,
+      "note": "Law RA11040 2018; working nationwide, non-working Cebu",
+      "category": "GLOBAL"
+    },
+    {
+      "month": "APRIL",
+      "event": "International Day of Dance",
+      "date": "2026-04-29 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "MARCH",
+      "event": "World Wildlife Day",
+      "date": "2026-03-03 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "MARCH",
+      "event": "International Women’s Day",
+      "date": "2026-03-08 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "MARCH",
+      "event": "World Day Against Cyber Censorship",
+      "date": "2026-03-12 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "MARCH",
+      "event": "Eid'l Fitr",
+      "date": "March 20*",
+      "logic": "movable-lunar",
+      "rule": "1 Shawwal Hijri, moon sighting TBA",
+      "founded": 622,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "MARCH",
+      "event": "World Down Syndrome Day",
+      "date": "2026-03-21 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "MARCH",
+      "event": "World Water Day",
+      "date": "2026-03-22 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "MARCH",
+      "event": "Earth Hour",
+      "date": "2026-03-28 00:00:00",
+      "logic": "movable-nth",
+      "rule": "Last Saturday March 20:30",
+      "founded": 2007,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "MARCH",
+      "event": "Palm Sunday",
+      "date": "2026-03-29 00:00:00",
+      "logic": "movable-liturgical",
+      "rule": "Sunday before Easter",
+      "founded": 325,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "MARCH",
+      "event": "International Transgender Day of Visibility",
+      "date": "2026-03-31 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "FEBRUARY",
+      "event": "Constitution Day",
+      "date": "2026-02-02 00:00:00",
+      "logic": "fixed",
+      "founded": 1987,
+      "anniv2026": 39,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "FEBRUARY",
+      "event": "World Cancer Day",
+      "date": "2026-02-04 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "FEBRUARY",
+      "event": "International Day of Human Fraternity",
+      "date": "2026-02-04 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "FEBRUARY",
+      "event": "International Day Against the Use of Child Soldiers",
+      "date": "2026-02-12 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "FEBRUARY",
+      "event": "Anniversary of Most Blessed Sacrament Chapel Massacre",
+      "date": "2026-02-12 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "FEBRUARY",
+      "event": "Valentine's Day",
+      "date": "2026-02-14 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "FEBRUARY",
+      "event": "Chinese New Year",
+      "date": "2026-02-17 00:00:00",
+      "logic": "movable-lunar",
+      "rule": "2nd New Moon after Winter Solstice",
+      "founded": -2697,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "FEBRUARY",
+      "event": "Death Anniversary of GOMBURZA",
+      "date": "2026-02-17 00:00:00",
+      "logic": "fixed",
+      "founded": 1872,
+      "anniv2026": 154,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "FEBRUARY",
+      "event": "Ash Wednesday",
+      "date": "2026-02-18 00:00:00",
+      "logic": "movable-liturgical",
+      "rule": "46 days before Easter",
+      "founded": 325,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "FEBRUARY",
+      "event": "World Day of Social Justice",
+      "date": "2026-02-20 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "FEBRUARY",
+      "event": "International Mother Language Day",
+      "date": "2026-02-21 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "FEBRUARY",
+      "event": "EDSA Revolution Anniversary",
+      "date": "2026-02-25 00:00:00",
+      "logic": "tba-government",
+      "rule": "Feb25 now Special Working per Proc727/1006 (was non-working)",
+      "founded": 1986,
+      "anniv2026": 40,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "FEBRUARY",
+      "event": "Pokemon Anniversary",
+      "date": "2026-02-27 00:00:00",
+      "logic": "fixed",
+      "founded": 1996,
+      "anniv2026": 30,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JANUARY",
+      "event": "New Years",
+      "date": "2025-01-01 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "JANUARY",
+      "event": "World Braille Day",
+      "date": "2025-01-04 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": null,
+      "event": "Start of Term 2",
+      "date": "2025-01-05 00:00:00",
+      "logic": "undated",
+      "rule": "DLSU academic calendar",
+      "isUndated": true,
+      "day": null,
+      "tbaSource": "DLSU Academic Calendar",
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JANUARY",
+      "event": "Feast of the Black Nazarene",
+      "date": "2025-01-09 00:00:00",
+      "logic": "fixed",
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JANUARY",
+      "event": "Unknown Citizens' Day",
+      "date": "2025-01-11 00:00:00",
+      "logic": "movable-nth",
+      "rule": "2nd Sunday January per CA152 1936",
+      "founded": 1936,
+      "note": "Sheet Jan11 WRONG; 2026=Jan11 coincidentally but rule is nth",
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JANUARY",
+      "event": "Lifting of Martial Law",
+      "date": "2025-01-17 00:00:00",
+      "logic": "fixed",
+      "founded": 1981,
+      "anniv2026": 45,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JANUARY",
+      "event": "Anniversary of Mamasapano Massacre",
+      "date": "2025-01-25 00:00:00",
+      "logic": "fixed",
+      "founded": 2015,
+      "anniv2026": 11,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "JANUARY",
+      "event": "International Holocaust Remembrance Day",
+      "date": "2025-01-27 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "JANUARY",
+      "event": "World Leprosy Day",
+      "date": "2025-01-28 00:00:00",
+      "logic": "movable-nth",
+      "rule": "Last Sunday January",
+      "founded": 1954,
+      "note": "Sheet Jan 28 WRONG; 2026=Jan25, 2027=Jan31",
+      "category": "GLOBAL"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "International Day of People with Disabilities",
+      "date": "2021-12-03 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "Miracle in Hanoi",
+      "date": "2023-12-05 00:00:00",
+      "logic": "fixed",
+      "founded": 2010,
+      "anniv2026": 16,
+      "note": "Sheet Dec5 2022 WRONG; correct Dec5 2010 AFF Suzuki Cup",
+      "category": "GLOBAL"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "Feast of Immaculate Conception",
+      "date": "2019-12-08 00:00:00",
+      "logic": "fixed",
+      "founded": 1854,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "International Anti-Corruption Day",
+      "date": "2019-12-09 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "International Animal Rights Day",
+      "date": "2023-12-10 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "Human Rights Day",
+      "date": "2023-12-10 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "12 Days Before Christmas",
+      "date": "2019-12-13 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "11 Days Before Christmas",
+      "date": "2019-12-14 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "10 Days Before Christmas",
+      "date": "2019-12-15 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "9 Days Before Christmas",
+      "date": "2019-12-16 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "8 Days Before Christmas",
+      "date": "2019-12-17 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "7 Days Before Christmas",
+      "date": "2019-12-18 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "6 Days Before Christmas",
+      "date": "2019-12-19 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "5 Days Before Christmas",
+      "date": "2019-12-20 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "4 Days Before Christmas",
+      "date": "2019-12-21 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "3 Days Before Christmas",
+      "date": "2019-12-22 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "2 Days Before Christmas",
+      "date": "2019-12-23 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "1 Day Before Christmas",
+      "date": "2019-12-24 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "Christmas Day",
+      "date": "2019-12-25 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "DECEMBER",
+      "event": "Rizal Day",
+      "date": "2025-12-30 00:00:00",
+      "logic": "fixed",
+      "founded": 1896,
+      "anniv2026": 130,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "NOVEMBER",
+      "event": "All Saints Day",
+      "date": "2025-11-01 00:00:00",
+      "logic": "fixed",
+      "founded": 609,
+      "note": "Nov1 Special Non-Working fixed",
+      "category": "GLOBAL"
+    },
+    {
+      "month": "NOVEMBER",
+      "event": "All Souls Day",
+      "date": "2025-11-02 00:00:00",
+      "logic": "tba-government",
+      "rule": "Nov2 Additional Special only when proclaimed",
+      "founded": 1000,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "NOVEMBER",
+      "event": "International Day to End Impunity for Crimes Against Journalists",
+      "date": "2025-11-02 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "NOVEMBER",
+      "event": "World Tsunami Awareness Day",
+      "date": "2025-11-05 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "NOVEMBER",
+      "event": "International Day for Preventing the Exploitation of the Environment in War and Armed Conflict",
+      "date": "2025-11-06 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "NOVEMBER",
+      "event": "World Science Day for Peace and Development",
+      "date": "2025-11-10 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "NOVEMBER",
+      "event": "World Kindness Day",
+      "date": "2025-11-13 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "NOVEMBER",
+      "event": "World Diabetes Day",
+      "date": "2025-11-14 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "NOVEMBER",
+      "event": "Steve Irwin Day",
+      "date": "2025-11-15 00:00:00",
+      "logic": "fixed",
+      "founded": 2007,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "NOVEMBER",
+      "event": "International Students' Day",
+      "date": "2025-11-17 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "NOVEMBER",
+      "event": "World Philosophy Day",
+      "date": "2025-11-20 00:00:00",
+      "logic": "movable-nth",
+      "rule": "3rd Thursday November",
+      "founded": 2002,
+      "note": "Sheet fixed Nov19 WRONG; 2026=Nov19,2027=Nov18",
+      "category": "GLOBAL"
+    },
+    {
+      "month": "NOVEMBER",
+      "event": "Children's Day",
+      "date": "2025-11-20 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "NOVEMBER",
+      "event": "Commemoration of the Maguindanao Massacre",
+      "date": "2025-11-23 00:00:00",
+      "logic": "fixed",
+      "founded": 2009,
+      "anniv2026": 17,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "NOVEMBER",
+      "event": "International Day for the Elimination of Violence Against Women",
+      "date": "2025-11-25 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "NOVEMBER",
+      "event": "Bonifacio Day",
+      "date": "2025-11-30 00:00:00",
+      "logic": "fixed",
+      "founded": 1863,
+      "anniv2026": 163,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "OCTOBER",
+      "event": "World Teachers Day",
+      "date": "2025-10-05 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "OCTOBER",
+      "event": "World Habitat Day",
+      "date": "2025-10-06 00:00:00",
+      "logic": "movable-nth",
+      "rule": "1st Monday October",
+      "founded": 1985,
+      "note": "Sheet Oct6 WRONG; 2026=Oct5",
+      "category": "GLOBAL"
+    },
+    {
+      "month": "OCTOBER",
+      "event": "World Mental Health Day",
+      "date": "2025-10-10 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "OCTOBER",
+      "event": "International Day for Disaster Reduction",
+      "date": "2025-10-13 00:00:00",
+      "logic": "fixed",
+      "rule": "Fixed Oct13 since 2009 (was 2nd Wed Oct)",
+      "founded": 1989,
+      "category": "GLOBAL"
+    },
+    {
+      "month": "OCTOBER",
+      "event": "Commemoration of Marawi Liberation",
+      "date": "2025-10-16 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "OCTOBER",
+      "event": "World Food Day",
+      "date": "2025-10-16 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "OCTOBER",
+      "event": "International Day for the Eradication of Poverty",
+      "date": "2025-10-17 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "OCTOBER",
+      "event": "TLS Anniversary",
+      "date": "2025-10-24 00:00:00",
+      "logic": "fixed",
+      "founded": 1960,
+      "note": "Verify registrar year; sheet Oct24",
+      "category": "GLOBAL"
+    },
+    {
+      "month": "OCTOBER",
+      "event": "United Nations Day",
+      "date": "2025-10-24 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "OCTOBER",
+      "event": "Halloween",
+      "date": "2025-10-31 00:00:00",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "SEPTEMBER",
+      "event": "Nativity of the Blessed Virgin Mary",
+      "date": "2025-09-08 00:00:00",
+      "logic": "fixed",
+      "founded": 500,
+      "foundedYear": 500,
+      "foundedAuthority": "Jerusalem ~5th c",
+      "category": "PHILIPPINES"
+    },
+    {
+      "month": "SEPTEMBER",
+      "event": "Anniversary of the Official Gazette",
+      "date": "2025-09-10 00:00:00",
+      "logic": "fixed",
+      "founded": 1902,
+      "anniv2026": 124,
+      "note": "Sheet 1901 WRONG",
+      "foundedYear": 1902,
+      "foundedAuthority": "Act 453 Sep 2 1902, Vol1 No1 Sep10 1902",
+      "category": "PHILIPPINES"
+    },
+    {
+      "month": "SEPTEMBER",
+      "event": "World Suicide Prevention Day",
+      "date": "2025-09-10 00:00:00",
+      "foundedYear": 2003,
+      "foundedAuthority": "IASP + WHO 2003",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "SEPTEMBER",
+      "event": "Grandparents Day",
+      "date": "2025-09-14 00:00:00",
+      "logic": "movable_nth",
+      "rule": "2nd Sunday September",
+      "founded": 1978,
+      "note": "Sheet Sep14 WRONG; 2026=Sep13",
+      "foundedYear": 1978,
+      "category": "PHILIPPINES"
+    },
+    {
+      "month": "SEPTEMBER",
+      "event": "International Ozone Day",
+      "date": "2025-09-16 00:00:00",
+      "foundedYear": 1994,
+      "foundedAuthority": "UNGA Res 49/114 (Montreal Protocol 1987)",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "SEPTEMBER",
+      "event": "First Paralympic Games",
+      "date": "2025-09-18 00:00:00",
+      "logic": "fixed",
+      "founded": 1960,
+      "anniv2026": 66,
+      "foundedYear": 1960,
+      "foundedAuthority": "Rome Sep18-25 1960",
+      "category": "GLOBAL"
+    },
+    {
+      "month": "SEPTEMBER",
+      "event": "Martial Law Anniversary",
+      "date": "2025-09-21 00:00:00",
+      "logic": "fixed",
+      "founded": 1972,
+      "anniv2026": 54,
+      "note": "Dual: signed Sep21 dated vs announced Sep23",
+      "foundedYear": 1972,
+      "foundedAuthority": "Proclamation 1081 Sep21 1972 (announced Sep23)",
+      "category": "PHILIPPINES"
+    },
+    {
+      "month": "SEPTEMBER",
+      "event": "World Alzheimer's Day",
+      "date": "2025-09-21 00:00:00",
+      "foundedYear": 1994,
+      "foundedAuthority": "ADI + WHO 1994",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "month": "SEPTEMBER",
+      "event": "International Day of Sign Languages",
+      "date": "2025-09-23 00:00:00",
+      "foundedYear": 2018,
+      "foundedAuthority": "UNGA Res 72/161 (WFD)",
+      "category": "GLOBAL",
+      "logic": "fixed"
+    },
+    {
+      "event": "Start of Term 1",
+      "title": "Start of Term 1",
+      "month": null,
+      "day": null,
+      "date": "",
+      "logic": "undated",
+      "isUndated": true,
+      "tbaSource": "DLSU Academic Calendar",
+      "category": "DLSU",
+      "foundedYear": null,
+      "description": "Academic calendar TBA —Term 1 start varies yearly; add to month manually"
+    }
+  ],
+  "new_candidates": [
+    {
+      "title": "World Health Day",
+      "month": "APRIL",
+      "logic": "fixed",
+      "day": 7,
+      "foundedYear": 1948,
+      "category": "GLOBAL"
+    },
+    {
+      "title": "World Book and Copyright Day",
+      "month": "APRIL",
+      "logic": "fixed",
+      "day": 23,
+      "foundedYear": 1995,
+      "category": "GLOBAL"
+    },
+    {
+      "title": "World Environment Day",
+      "month": "JUNE",
+      "logic": "fixed",
+      "day": 5,
+      "foundedYear": 1972,
+      "category": "GLOBAL"
+    },
+    {
+      "title": "International Literacy Day",
+      "month": "SEPTEMBER",
+      "logic": "fixed",
+      "day": 8,
+      "foundedYear": 1966,
+      "category": "GLOBAL",
+      "note": "60th diamond 2026"
+    },
+    {
+      "title": "International Day of Education",
+      "month": "JANUARY",
+      "logic": "fixed",
+      "day": 24,
+      "foundedYear": 2018,
+      "category": "GLOBAL"
+    },
+    {
+      "title": "World Radio Day",
+      "month": "FEBRUARY",
+      "logic": "fixed",
+      "day": 13,
+      "foundedYear": 2011,
+      "category": "GLOBAL"
+    },
+    {
+      "title": "International Day of Peace",
+      "month": "SEPTEMBER",
+      "logic": "fixed",
+      "day": 21,
+      "foundedYear": 1981,
+      "category": "GLOBAL"
+    },
+    {
+      "title": "International Day of Democracy",
+      "month": "SEPTEMBER",
+      "logic": "fixed",
+      "day": 15,
+      "foundedYear": 2007,
+      "category": "GLOBAL"
+    },
+    {
+      "title": "Intl Day to Combat Islamophobia",
+      "month": "MARCH",
+      "logic": "fixed",
+      "day": 15,
+      "foundedYear": 2022,
+      "category": "GLOBAL"
+    },
+    {
+      "title": "World Poetry Day",
+      "month": "MARCH",
+      "logic": "fixed",
+      "day": 21,
+      "foundedYear": 1999,
+      "category": "GLOBAL"
+    },
+    {
+      "title": "World Humanitarian Day",
+      "month": "AUGUST",
+      "logic": "fixed",
+      "day": 19,
+      "foundedYear": 2008,
+      "category": "GLOBAL"
+    },
+    {
+      "title": "International Day for Tolerance",
+      "month": "NOVEMBER",
+      "logic": "fixed",
+      "day": 16,
+      "foundedYear": 1995,
+      "category": "GLOBAL"
+    },
+    {
+      "title": "Buwan ng Wika (National Language Month)",
+      "month": "AUGUST",
+      "logic": "fixed-month",
+      "foundedYear": 1946,
+      "category": "PHILIPPINES"
+    },
+    {
+      "title": "Super Typhoon Yolanda Anniversary",
+      "month": "NOVEMBER",
+      "logic": "fixed",
+      "day": 8,
+      "foundedYear": 2013,
+      "category": "PHILIPPINES"
+    },
+    {
+      "title": "Mount Pinatubo Eruption Anniversary",
+      "month": "JUNE",
+      "logic": "fixed",
+      "day": 15,
+      "foundedYear": 1991,
+      "category": "PHILIPPINES"
+    },
+    {
+      "title": "1990 Luzon Earthquake Anniversary",
+      "month": "JULY",
+      "logic": "fixed",
+      "day": 16,
+      "foundedYear": 1990,
+      "category": "PHILIPPINES"
+    },
+    {
+      "title": "Jabidah Massacre / Bangsamoro Freedom Day",
+      "month": "MARCH",
+      "logic": "fixed",
+      "day": 18,
+      "foundedYear": 1968,
+      "category": "PHILIPPINES"
+    },
+    {
+      "title": "Plaza Miranda Bombing Anniversary",
+      "month": "AUGUST",
+      "logic": "fixed",
+      "day": 21,
+      "foundedYear": 1971,
+      "category": "PHILIPPINES"
+    },
+    {
+      "title": "EDSA Dos / Second People Power",
+      "month": "JANUARY",
+      "logic": "fixed",
+      "day": 20,
+      "foundedYear": 2001,
+      "category": "PHILIPPINES"
+    },
+    {
+      "title": "Feast of San Lorenzo Ruiz",
+      "month": "SEPTEMBER",
+      "logic": "fixed",
+      "day": 28,
+      "foundedYear": 1987,
+      "category": "PHILIPPINES"
+    },
+    {
+      "title": "National Book Week",
+      "month": "NOVEMBER",
+      "logic": "movable-nth",
+      "rule": "Last week November",
+      "foundedYear": 1934,
+      "category": "PHILIPPINES"
+    },
+    {
+      "title": "Rizal Law (RA 1425) Anniversary",
+      "month": "JUNE",
+      "logic": "fixed",
+      "day": 12,
+      "foundedYear": 1956,
+      "category": "PHILIPPINES"
+    },
+    {
+      "title": "National Disaster Resilience Month",
+      "month": "JULY",
+      "logic": "fixed-month",
+      "foundedYear": 2017,
+      "category": "PHILIPPINES"
+    },
+    {
+      "title": "Battle of Manila / Liberation of Manila",
+      "month": "FEBRUARY",
+      "logic": "fixed",
+      "day": 3,
+      "foundedYear": 1945,
+      "category": "MANILA"
+    },
+    {
+      "title": "Manila Carnival Anniversary",
+      "month": "FEBRUARY",
+      "logic": "fixed-month",
+      "foundedYear": 1908,
+      "category": "MANILA"
+    },
+    {
+      "title": "Feast of Saint Andrew (Patron of Manila)",
+      "month": "NOVEMBER",
+      "logic": "fixed",
+      "day": 30,
+      "foundedYear": 1571,
+      "category": "MANILA"
+    },
+    {
+      "title": "LRT Line 1 Opening",
+      "month": "DECEMBER",
+      "logic": "fixed",
+      "day": 1,
+      "foundedYear": 1984,
+      "category": "MANILA"
+    },
+    {
+      "title": "Metro Manila Film Festival Opening",
+      "month": "DECEMBER",
+      "logic": "fixed",
+      "day": 25,
+      "foundedYear": 1975,
+      "category": "MANILA"
+    },
+    {
+      "title": "Great Manila Earthquake (1863)",
+      "month": "JUNE",
+      "logic": "fixed",
+      "day": 3,
+      "foundedYear": 1863,
+      "category": "MANILA"
+    },
+    {
+      "title": "Manila Zoo Opening Anniversary",
+      "month": "JULY",
+      "logic": "fixed",
+      "day": 25,
+      "foundedYear": 1959,
+      "category": "MANILA"
+    },
+    {
+      "title": "Manila Hostage Crisis Anniversary",
+      "month": "AUGUST",
+      "logic": "fixed",
+      "day": 23,
+      "foundedYear": 2010,
+      "category": "MANILA"
+    },
+    {
+      "title": "Manila Bay Rehabilitation Anniversary",
+      "month": "JANUARY",
+      "logic": "fixed",
+      "day": 27,
+      "foundedYear": 2019,
+      "category": "MANILA"
+    },
+    {
+      "title": "Carriedo Waterworks / El Deposito Anniversary",
+      "month": "JULY",
+      "logic": "fixed",
+      "day": 23,
+      "foundedYear": 1882,
+      "category": "MANILA"
+    },
+    {
+      "title": "Feast of St. John Baptist de La Salle",
+      "month": "MAY",
+      "logic": "fixed",
+      "day": 15,
+      "foundedYear": 1900,
+      "category": "DLSU"
+    },
+    {
+      "title": "Feast of Saint Benilde Romançon",
+      "month": "AUGUST",
+      "logic": "fixed",
+      "day": 13,
+      "foundedYear": 1967,
+      "category": "DLSU"
+    },
+    {
+      "title": "Arrival of De La Salle Brothers in PH",
+      "month": "MARCH",
+      "logic": "fixed",
+      "day": 10,
+      "foundedYear": 1911,
+      "category": "DLSU"
+    },
+    {
+      "title": "DLSU University Charter Anniversary",
+      "month": "FEBRUARY",
+      "logic": "fixed",
+      "day": 19,
+      "foundedYear": 1975,
+      "category": "DLSU"
+    },
+    {
+      "title": "DLSU-College of Saint Benilde Foundation",
+      "month": "OCTOBER",
+      "logic": "fixed",
+      "day": 25,
+      "foundedYear": 1988,
+      "category": "DLSU"
+    },
+    {
+      "title": "DLSU Incorporation Anniversary",
+      "month": "FEBRUARY",
+      "logic": "fixed",
+      "day": 12,
+      "foundedYear": 1912,
+      "category": "DLSU"
+    },
+    {
+      "title": "Taft Campus Transfer / St. La Salle Hall",
+      "month": "FEBRUARY",
+      "logic": "fixed",
+      "day": 1,
+      "foundedYear": 1921,
+      "category": "DLSU"
+    },
+    {
+      "title": "Br. Andrew Gonzalez Birth Anniversary",
+      "month": "FEBRUARY",
+      "logic": "fixed",
+      "day": 29,
+      "foundedYear": 1940,
+      "category": "DLSU"
+    },
+    {
+      "title": "Feast of St. Mutien-Marie Wiaux",
+      "month": "JANUARY",
+      "logic": "fixed",
+      "day": 30,
+      "foundedYear": 1989,
+      "category": "DLSU"
+    },
+    {
+      "title": "DLSU Santiago Zobel Founding",
+      "month": "JANUARY",
+      "logic": "fixed",
+      "day": 1,
+      "foundedYear": 1978,
+      "category": "DLSU"
+    },
+    {
+      "title": "Lasallian Mission Week",
+      "month": "MAY",
+      "logic": "movable-nth",
+      "rule": "Week of May15",
+      "foundedYear": 2000,
+      "category": "DLSU"
+    },
+    {
+      "title": "Jose W. Diokno Birth Anniversary",
+      "month": "AUGUST",
+      "logic": "fixed",
+      "day": 26,
+      "foundedYear": 1922,
+      "category": "DLSU"
+    }
+  ]
+}

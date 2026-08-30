@@ -1,0 +1,83 @@
+// worker/index.ts — Hono API on Cloudflare Workers + D1
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+import { drizzle } from "drizzle-orm/d1";
+import * as schema from "../drizzle.schema";
+import { getEaster, nthWeekday, addDays, prioScore } from "../dateEngine";
+
+type Env = { DB: D1Database; OIDC_JWKS_URL: string };
+
+const app = new Hono<{ Bindings: Env }>();
+app.use("/*", cors());
+
+// Auth middleware — verify Authentik JWT (simplified)
+app.use("/api/issues/*", async (c, next) => {
+  const auth = c.req.header("Authorization");
+  if (!auth) return c.json({ error: "unauthorized" }, 401);
+  // TODO: fetch JWKS, verify with jose/jwt-verify, check groups
+  await next();
+});
+
+// GET /api/suggestions?year=2026&month=9 — computed September list sorted by prio
+app.get("/api/suggestions", async (c) => {
+  const year = Number(c.req.query("year") ?? new Date().getFullYear());
+  const month = Number(c.req.query("month") ?? new Date().getMonth() + 1);
+  const sort = c.req.query("sort") ?? "prio"; // prio | date | category
+  const db = drizzle(c.env.DB, { schema });
+  // fetch events where month = :month (and not undated)
+  const rows: any[] = await c.env.DB.prepare("SELECT * FROM events WHERE month = ?").bind(month).all().then(r=>r.results);
+  // compute occurrences + prio
+  const easter = getEaster(year);
+  const enriched = rows.map(r => {
+    let date: Date | null = null;
+    if (r.logic === "fixed" && r.month && r.day) date = new Date(year, r.month-1, r.day);
+    if (r.logic === "movable_nth" && r.ruleJson) {
+      const rule = JSON.parse(r.ruleJson);
+      date = nthWeekday(year, rule.month, rule.weekday, rule.n);
+    }
+    if (r.logic === "movable_liturgical" && r.ruleJson) {
+      const rule = JSON.parse(r.ruleJson);
+      date = addDays(easter, rule.offset);
+    }
+    const anniv = r.foundedYear ? year - r.foundedYear : null;
+    return { ...r, computedDate: date?.toISOString().slice(0,10), anniversary: anniv, prio: prioScore(anniv) };
+  });
+  if (sort === "prio") enriched.sort((a,b) => b.prio - a.prio || (b.anniversary??0)-(a.anniversary??0) || a.title.localeCompare(b.title));
+  if (sort === "date") enriched.sort((a,b) => (a.computedDate??"").localeCompare(b.computedDate??""));
+  return c.json(enriched);
+});
+
+app.get("/api/pool", async (c) => {
+  const rows = await c.env.DB.prepare("SELECT * FROM events WHERE isUndated = 1 OR month IS NULL").all().then(r=>r.results);
+  return c.json(rows);
+});
+
+app.post("/api/events", async (c) => {
+  const body = await c.req.json();
+  // body: { title, category, description, isUndated:true } — no date required
+  const id = crypto.randomUUID();
+  await c.env.DB.prepare("INSERT INTO events (id, slug, title, category, logic, month, isUndated) VALUES (?,?,?,?,?,?,?)")
+    .bind(id, body.title.toLowerCase().replace(/\s+/g,"-"), body.title, body.category ?? "TLS", "undated", null, 1).run();
+  return c.json({ id }, 201);
+});
+
+app.post("/api/issues/:year/:month/picks", async (c) => {
+  const year = Number(c.req.param("year")), month = Number(c.req.param("month"));
+  const { eventId, addedBy } = await c.req.json();
+  const ifMatch = c.req.header("If-Match");
+  // ensure issue exists, check version for shared-state optimistic locking
+  let issue: any = await c.env.DB.prepare("SELECT * FROM monthly_issues WHERE year=? AND month=?").bind(year,month).first();
+  if (!issue) {
+    const id = crypto.randomUUID();
+    await c.env.DB.prepare("INSERT INTO monthly_issues (id, year, month, status, version) VALUES (?,?,?,?,1)").bind(id,year,month,"draft").run();
+    issue = { id, version:1 };
+  } else if (ifMatch && Number(ifMatch) !== issue.version) {
+    return c.json({ error:"version_conflict", current: issue }, 409);
+  }
+  const pickId = crypto.randomUUID();
+  await c.env.DB.prepare("INSERT INTO monthly_picks (id, issueId, eventId, addedBy) VALUES (?,?,?,?)").bind(pickId, issue.id, eventId, addedBy ?? null).run();
+  await c.env.DB.prepare("UPDATE monthly_issues SET version = version + 1, updatedAt = datetime('now') WHERE id=?").bind(issue.id).run();
+  return c.json({ pickId, version: issue.version + 1 }, 201);
+});
+
+export default app;
