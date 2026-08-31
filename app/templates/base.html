@@ -27,8 +27,8 @@ a{color:var(--accent);text-decoration:none}
 </head>
 <body>
 <header>
-<div><h1>Event Suggester — {{ month_name }} {{ year }}</h1><div class="small">The Lasallian • <a href="/">Today</a> • <a href="/pool">Pool (all)</a> • {{ email }}</div></div>
-<div class="muted">Shared state • v{{ issue.version if issue else 1 }}</div>
+<div><h1>Event Suggester — {{ month_name }} {{ year }}</h1><div class="small">The Lasallian • <a href="/">Today</a> • {{ email }}</div></div>
+<div style="display:flex;gap:8px;align-items:center"><a href="/pool" class="btn primary" style="font-size:14px;padding:8px 16px">📚 All Pool — {{ all_events|length if all_events else 185 }} events (edit)</a><div class="muted">v{{ issue.version if issue else 1 }}</div></div>
 </header>
 <main class="container">
 {% block content %}{% endblock %}
