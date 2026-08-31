@@ -91,11 +91,12 @@ toggleLogic();
 <div style="display:flex;gap:6px;margin-top:6px;align-items:center;flex-wrap:wrap">
 <form method="post" action="/{{ year }}/{{ month }}/update_date" style="display:flex;gap:6px;align-items:center">
 <input type="hidden" name="event_id" value="{{ p.event_id }}">
-<input type="date" name="custom_date" value="{{ eff.isoformat() if eff else '' }}" style="padding:6px;border:1px solid var(--line);border-radius:8px;font-size:13px">
-<button class="btn" type="submit">Save date</button>
+<label class="small">Day:</label>
+<input type="number" name="custom_day" min="1" max="{{ days_in_month }}" value="{{ eff.day if eff else '' }}" placeholder="day" style="width:70px;padding:6px;border:1px solid var(--line);border-radius:8px;font-size:13px">
+<button class="btn" type="submit">Save</button>
 </form>
 {% if p.custom_date %}<form method="post" action="/{{ year }}/{{ month }}/update_date"><input type="hidden" name="event_id" value="{{ p.event_id }}"><input type="hidden" name="custom_date" value=""><button class="btn" type="submit">Clear</button></form>{% endif %}
-<span class="small">edit affects only this basket/export</span>
+<span class="small">day only (within {{ month_name }}, persists for all)</span>
 </div>
 </div>
 {% endfor %}

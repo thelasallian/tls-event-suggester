@@ -320,15 +320,26 @@ def unpick_event(request: Request, year: int, month: int, event_id: str = Form(.
     return RedirectResponse(url=f"/{year}/{month}", status_code=303)
 
 @app.post("/{year}/{month}/update_date")
-def update_pick_date(request: Request, year: int, month: int, event_id: str = Form(...), custom_date: str = Form("")):
-    # custom_date: YYYY-MM-DD or empty to clear (revert to computed)
+def update_pick_date(request: Request, year: int, month: int, event_id: str = Form(...), custom_date: str = Form(""), custom_day: str = Form("")):
+    # supports day-only edit: custom_day 1..days_in_month -> YYYY-MM-DD for this basket's year/month
+    # also supports full custom_date for backward compat
     issue, _ = get_issue(year, month)
     con = sqlite3.connect(DB_PATH)
-    # validate date if provided
     cd = None
-    if custom_date and custom_date.strip():
+    # prefer custom_day if provided
+    if custom_day and custom_day.strip():
         try:
-            # normalize to YYYY-MM-DD
+            d = int(custom_day.strip())
+            import calendar as _cal
+            dim = _cal.monthrange(year, month)[1]
+            if not (1 <= d <= dim):
+                raise ValueError
+            cd = datetime.date(year, month, d).isoformat()
+        except:
+            con.close()
+            raise HTTPException(status_code=400, detail=f"Invalid day, must be 1-{dim}")
+    elif custom_date and custom_date.strip():
+        try:
             dt = datetime.date.fromisoformat(custom_date.strip())
             cd = dt.isoformat()
         except:
