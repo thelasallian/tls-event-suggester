@@ -9,7 +9,12 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 BASE = pathlib.Path(__file__).parent
+# seed may be at app/seed.json (VPS) or ../seed.json (repo root) — try both
 SEED_PATH = BASE / "seed.json"
+if not SEED_PATH.exists():
+    alt = BASE.parent / "seed.json"
+    if alt.exists():
+        SEED_PATH = alt
 DB_PATH = BASE / "events.db"
 
 app = FastAPI()
