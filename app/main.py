@@ -379,7 +379,7 @@ def table_basket(request: Request, year: int, month: int):
                 date_str = ""
         rows.append((title, date_str))
     rows.sort(key=lambda x: (x[1] or "9999-12-31", x[0]))
-    return templates.TemplateResponse("table.html", {"request": request, "year": year, "month": month, "month_name": datetime.date(year, month, 1).strftime("%B"), "rows": rows, "now": datetime.datetime.now()})
+    return templates.TemplateResponse(request, "table.html", {"year": year, "month": month, "month_name": datetime.date(year, month, 1).strftime("%B"), "rows": rows, "now": datetime.datetime.now()})
 
 @app.get("/{year}/{month}/export")
 def export_basket(request: Request, year: int, month: int):
