@@ -366,19 +366,23 @@ def table_basket(request: Request, year: int, month: int):
         ev = ev_by_id.get(p["event_id"])
         title = ev["title"] if ev else p["event_id"]
         cd = p["custom_date"] if "custom_date" in p.keys() and p["custom_date"] else None
+        dt = None
         if cd:
-            date_str = cd
+            try: dt = datetime.date.fromisoformat(cd)
+            except: dt = None
         else:
             comp = events_by_id.get(p["event_id"])
             if comp and comp["date"]:
-                date_str = comp["date"].isoformat()
+                dt = comp["date"]
             elif ev and ev.get("day") and ev.get("month"):
-                try: date_str = compute_fixed_date(year, ev["month"], ev["day"]).isoformat()
-                except: date_str = ""
-            else:
-                date_str = ""
-        rows.append((title, date_str))
-    rows.sort(key=lambda x: (x[1] or "9999-12-31", x[0]))
+                try: dt = compute_fixed_date(year, ev["month"], ev["day"])
+                except: dt = None
+        date_str = f"{dt.strftime('%B')} {dt.day}" if dt else ""
+        rows.append((title, date_str, dt.isoformat() if dt else ""))
+    # sort by actual date
+    rows_sorted = sorted(rows, key=lambda x: (x[2] or "9999-12-31", x[0]))
+    # for table, use Month day format (e.g. September 7)
+    rows = [(t, d) for t, d, _ in rows_sorted]
     return templates.TemplateResponse(request, "table.html", {"year": year, "month": month, "month_name": datetime.date(year, month, 1).strftime("%B"), "rows": rows, "now": datetime.datetime.now()})
 
 @app.get("/{year}/{month}/export")
@@ -394,28 +398,26 @@ def export_basket(request: Request, year: int, month: int):
     for p in picks:
         ev = ev_by_id.get(p["event_id"])
         title = ev["title"] if ev else p["event_id"]
-        # custom_date overrides
         cd = p["custom_date"] if "custom_date" in p.keys() and p["custom_date"] else None
+        dt = None
         if cd:
-            date_str = cd
+            try: dt = datetime.date.fromisoformat(cd)
+            except: dt = None
         else:
-            # use computed date if available
             comp = events_by_id.get(p["event_id"])
             if comp and comp["date"]:
-                date_str = comp["date"].isoformat()
+                dt = comp["date"]
             elif ev and ev.get("day") and ev.get("month"):
-                # fallback to fixed
-                try: date_str = compute_fixed_date(year, ev["month"], ev["day"]).isoformat()
-                except: date_str = ""
-            else:
-                date_str = ""
-        rows.append((title, date_str))
-    # sort by date
-    rows.sort(key=lambda x: (x[1] or "9999-12-31", x[0]))
+                try: dt = compute_fixed_date(year, ev["month"], ev["day"])
+                except: dt = None
+        date_str = f"{dt.strftime('%B')} {dt.day}" if dt else ""
+        # keep iso for sorting
+        rows.append((title, date_str, dt.isoformat() if dt else ""))
+    rows_sorted = sorted(rows, key=lambda x: (x[2] or "9999-12-31", x[0]))
+    rows = [(t, d) for t, d, _ in rows_sorted]
     # CSV
     lines = ["Event,Date"]
     for title, d in rows:
-        # escape commas/quotes
         t = '"' + title.replace('"', '""') + '"' if ("," in title or '"' in title) else title
         lines.append(f"{t},{d}")
     csv = "\n".join(lines)
