@@ -50,11 +50,15 @@ def nth_weekday(year, month, weekday, n):
     day = 1 + offset + (n-1)*7
     return datetime.date(year, month, day)
 
-# Load seed
+# Load seed — handles both old dict format {existing, new_candidates} and new list format [events]
 with open(SEED_PATH) as f:
     raw = json.load(f)
-EXISTING = raw.get("existing", [])
-NEW = raw.get("new_candidates", [])
+if isinstance(raw, list):
+    EXISTING = raw
+    NEW = []
+else:
+    EXISTING = raw.get("existing", [])
+    NEW = raw.get("new_candidates", [])
 
 # Normalize: combine and add ids
 ALL = []
@@ -161,6 +165,19 @@ def get_issue(year, month):
 @app.get("/healthz")
 def healthz():
     return {"ok": True}
+
+@app.get("/api/suggestions")
+def api_suggestions(year: int, month: int, sort: str = "prio"):
+    events = compute_for_month(year, month, sort=sort)
+    out = []
+    for e in events:
+        out.append({"id": e["id"], "title": e["title"], "month": e["month"], "day": e["day"], "date": e["date"].isoformat() if e["date"] else None, "anniv": e["anniv"], "prio": e["prio"], "category": e["category"]})
+    return JSONResponse(out)
+
+@app.get("/api/pool")
+def api_pool():
+    und = get_undated()
+    return JSONResponse([{"id": e["id"], "title": e["title"], "category": e["category"]} for e in und])
 
 @app.get("/", response_class=RedirectResponse)
 def root(request: Request):
@@ -281,9 +298,12 @@ def add_undated(request: Request, title: str = Form(...), category: str = Form("
     try:
         with open(SEED_PATH) as f:
             data = json.load(f)
-        data["existing"].append({"title": title, "event": title, "month": m, "day": d, "logic": logic, "isUndated": is_undated, "category": category})
-        data["existing_139_count"] = len(data["existing"])
-        data["total"] = len(data["existing"]) + len(data.get("new_candidates", []))
+        if isinstance(data, list):
+            data.append({"id": len(data)+1, "title": title, "event": title, "month": m, "day": d, "logic": logic, "isUndated": is_undated, "category": category})
+        else:
+            data["existing"].append({"title": title, "event": title, "month": m, "day": d, "logic": logic, "isUndated": is_undated, "category": category})
+            data["existing_139_count"] = len(data["existing"])
+            data["total"] = len(data["existing"]) + len(data.get("new_candidates", []))
         with open(SEED_PATH, "w") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
     except Exception as e:
@@ -297,17 +317,4 @@ def add_undated(request: Request, title: str = Form(...), category: str = Form("
         return RedirectResponse(url=f"/{y}/{m}", status_code=303)
     return RedirectResponse(url="/", status_code=303)  # goes to next month via /
 
-@app.get("/api/suggestions")
-def api_suggestions(year: int, month: int, sort: str = "prio"):
-    events = compute_for_month(year, month, sort=sort)
-    # serialize
-    out = []
-    for e in events:
-        out.append({"id": e["id"], "title": e["title"], "month": e["month"], "day": e["day"], "date": e["date"].isoformat() if e["date"] else None, "anniv": e["anniv"], "prio": e["prio"], "category": e["category"]})
-    return JSONResponse(out)
-
-@app.get("/api/pool")
-def api_pool():
-    und = get_undated()
-    return JSONResponse([{"id": e["id"], "title": e["title"], "category": e["category"]} for e in und])
 
