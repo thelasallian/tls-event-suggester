@@ -428,7 +428,7 @@ def pool_view(request: Request):
     email = request.headers.get("x-authentik-email", "anonymous")
     # sort by month/day/title for pool view
     sorted_events = sorted(ALL, key=lambda e: ((e["month"] or 99), (e["day"] or 99), e["title"]))
-    return templates.TemplateResponse("pool.html", {"request": request, "events": sorted_events, "email": email, "now": datetime.datetime.now()})
+    return templates.TemplateResponse(request, "pool.html", {"events": sorted_events, "email": email, "now": datetime.datetime.now()})
 
 @app.post("/pool/edit")
 def pool_edit(request: Request, event_id: str = Form(...), title: str = Form(...), category: str = Form(...), logic: str = Form(...), month: str = Form(""), day: str = Form(""), nth: str = Form(""), weekday: str = Form(""), nth_month: str = Form("")):
