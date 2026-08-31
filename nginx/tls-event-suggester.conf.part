@@ -1,0 +1,53 @@
+# nginx vhost fragment for tls-event-suggester (copy of webdesk stack)
+# Insert as server{} in /opt/docker/tls-stack/nginx/nginx.conf — see webdesk/nginx/webdesk.conf.part
+# Auth: Authentik proxy provider + embedded outpost (see setup_authentik.sh)
+
+server {
+    listen 443 ssl;
+    http2 on;
+    server_name events.thelasallian.com;
+    ssl_certificate /etc/nginx/certs/thelasallian.cert;
+    ssl_certificate_key /etc/nginx/certs/thelasallian.key;
+
+    location /outpost.goauthentik.io/ {
+        resolver 127.0.0.11 valid=30s;
+        set $upstream_auth authentik-server-1;
+        proxy_pass http://$upstream_auth:9000;
+        proxy_set_header X-Original-URL $scheme://$http_host$request_uri;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Host $host;
+        proxy_pass_request_body off;
+        proxy_set_header Content-Length "";
+        auth_request_set $auth_cookie $upstream_http_set_cookie;
+        add_header Set-Cookie $auth_cookie;
+    }
+
+    location / {
+        resolver 127.0.0.11 valid=30s;
+        set $upstream_auth authentik-server-1;
+        set $upstream_app tls-event-suggester; # docker service name
+
+        auth_request /outpost.goauthentik.io/auth/nginx;
+        error_page 401 = @goauthentik_proxy_signin;
+
+        auth_request_set $auth_cookie $upstream_http_set_cookie;
+        auth_request_set $authentik_email $upstream_http_x_authentik_email;
+        auth_request_set $authentik_name $upstream_http_x_authentik_name;
+        auth_request_set $authentik_username $upstream_http_x_authentik_username;
+
+        proxy_pass http://$upstream_app:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-authentik-email $authentik_email;
+        proxy_set_header X-authentik-name $authentik_name;
+        proxy_set_header X-authentik-username $authentik_username;
+        proxy_redirect off;
+    }
+
+    location @goauthentik_proxy_signin {
+        internal;
+        add_header Set-Cookie $auth_cookie;
+        return 302 /outpost.goauthentik.io/start?rd=$request_uri;
+    }
+}
