@@ -73,6 +73,31 @@ toggleLogic();
 {% endfor %}
 {% if not undated %}<div class="small">Pool empty.</div>{% endif %}
 </div>
+
+<div class="card" style="margin-top:16px">
+<h3 style="margin:0 0 8px 0">Search all events <span class="small">— not in {{ month_name }}</span></h3>
+<div class="small" style="margin-bottom:8px">Find events from other months to add to this basket. Added items will have <b>month {{ month_name }} {{ year }} set, but no day</b> — you must set a day in the basket before export.</div>
+<button class="btn" onclick="document.getElementById('searchBox').style.display=(document.getElementById('searchBox').style.display==='none'?'block':'none')">🔍 Search</button>
+<div id="searchBox" style="display:none;margin-top:10px">
+<input id="searchInput" placeholder="Search title or category..." oninput="doSearch()" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:8px">
+<div id="searchResults" style="max-height:300px;overflow:auto;margin-top:8px"></div>
+</div>
+<script>
+const ALL_EVENTS = {{ all_events|tojson }};
+const PICKED_IDS = {{ picked_ids|list|tojson }};
+const CUR_MONTH = {{ month }};
+function doSearch(){
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const res = ALL_EVENTS.filter(e => e.month !== CUR_MONTH && !e.isUndated).filter(e => !q || e.title.toLowerCase().includes(q) || (e.category||'').toLowerCase().includes(q)).slice(0,30);
+  const el = document.getElementById('searchResults');
+  if(res.length===0){ el.innerHTML='<div class="small">No matches.</div>'; return; }
+  el.innerHTML = res.map(e => {
+    const inBasket = PICKED_IDS.includes(e.id);
+    return `<div class="event"><div><div style="font-weight:600">${e.title}</div><div class="small">${e.category} • ${e.logic} • orig ${e.month ? (e.month+'/'+(e.day||'')) : 'undated'}</div></div><div>${inBasket ? '<span class="small">in basket</span>' : `<form method="post" action="/{{ year }}/{{ month }}/pick"><input type="hidden" name="event_id" value="${e.id}"><button class="btn">Add to basket (no day yet)</button></form>`}</div></div>`;
+  }).join('');
+}
+</script>
+</div>
 </div>
 
 <div>
@@ -101,9 +126,16 @@ toggleLogic();
 </div>
 {% endfor %}
 {% if not picks %}<div class="small" style="padding:8px;background:#fafafa;border-radius:8px">Basket empty. Add suggestions from left or undated pool (then set date).</div>{% endif %}
-<div style="margin-top:12px;display:flex;gap:8px">
+{% if picks and not all_days_set %}
+<div class="small" style="margin-top:10px;padding:8px;background:#fff3cd;border:1px solid #ffe69c;border-radius:8px;color:#664d03">⚠️ {{ missing_count }} item(s) have no day set. Set a day for each basket item (day 1–{{ days_in_month }}) before export.</div>
+{% endif %}
+<div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+{% if all_days_set and picks %}
 <a href="/{{ year }}/{{ month }}/export" class="btn primary">Export CSV (2 cols: Event, Date)</a>
-<span class="small">for the year {{ year }}</span>
+{% else %}
+<span class="btn" style="opacity:0.5;pointer-events:none">Export CSV (2 cols: Event, Date)</span>
+{% endif %}
+<span class="small">for {{ month_name }} {{ year }} • {% if all_days_set %}ready{% else %}requires all days set{% endif %}</span>
 </div>
 </div>
 

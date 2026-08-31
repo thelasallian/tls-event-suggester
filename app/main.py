@@ -280,6 +280,9 @@ def month_view(request: Request, year: int, month: int):
         cal_weeks.append(week)
         if day > days_in_month:
             break
+    # check if all basket items have a day set (required for export)
+    all_days_set = all(pick_effective.get(p["id"]) is not None for p in picks) if picks else True
+    missing_count = sum(1 for p in picks if pick_effective.get(p["id"]) is None)
     return templates.TemplateResponse(request, "month.html", {
         "year": year, "month": month, "month_name": month_name,
         "events": events, "undated": undated, "issue": dict(issue), "picks": picks,
@@ -288,6 +291,7 @@ def month_view(request: Request, year: int, month: int):
         "days_in_month": days_in_month, "date_counts": date_counts,
         "basket_by_day": basket_by_day, "cal_weeks": cal_weeks,
         "pick_effective": pick_effective,
+        "all_days_set": all_days_set, "missing_count": missing_count,
     })
 
 @app.post("/{year}/{month}/pick")
