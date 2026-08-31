@@ -36,22 +36,36 @@ a{color:var(--accent);text-decoration:none}
 </tbody>
 </table>
 <script>
-// Hold and drag one column like Sheets — click header to select column
+// Hold and drag one column like Sheets — click header or drag vertically in a column
 function selectColumn(idx){
   const table=document.getElementById('eventTable');
-  const range=document.createRange();
   const sel=window.getSelection();
   sel.removeAllRanges();
-  const rows=table.rows;
-  for(let i=1;i<rows.length;i++){ // skip header
-    const cell=rows[i].cells[idx];
+  for(let i=1;i<table.rows.length;i++){
+    const cell=table.rows[i].cells[idx];
     if(!cell) continue;
     const r=document.createRange();
     r.selectNodeContents(cell);
     sel.addRange(r);
   }
-  // For drag, allow normal text selection — CSS user-select:text already
 }
+// Drag-to-select single column (hold and drag vertically)
+let dragCol=null;
+document.getElementById('eventTable').addEventListener('mousedown', e=>{
+  const cell=e.target.closest('td');
+  if(!cell) return;
+  dragCol=cell.cellIndex;
+  // let native selection handle it, but also prepare for drag
+});
+document.getElementById('eventTable').addEventListener('mousemove', e=>{
+  if(dragCol===null) return;
+  if(e.buttons!==1) return;
+  const cell=e.target.closest('td');
+  if(!cell || cell.cellIndex!==dragCol) return;
+  // extend selection to this cell's column
+  selectColumn(dragCol);
+});
+document.addEventListener('mouseup', ()=>{dragCol=null;});
 </script>
 <div class="muted" style="margin-top:12px">Generated {{ now.strftime("%Y-%m-%d %H:%M %PHT") }} • <a href="/{{ year }}/{{ month }}/export">Download CSV</a> (also 2 cols)</div>
 </div>
