@@ -80,7 +80,7 @@ for idx, e in enumerate(EXISTING + NEW):
         "raw": e,
     })
 
-def compute_for_month(year, month):
+def compute_for_month(year, month, sort="prio"):
     easter = get_easter(year)
     result = []
     for ev in ALL:
@@ -119,8 +119,14 @@ def compute_for_month(year, month):
                     date_obj = datetime.date(year, ev["month"], ev["day"])
         except: date_obj = None
         result.append({**ev, "anniv": anniv, "prio": prio, "date": date_obj})
-    # sort by prio desc, anniv desc, title
-    result.sort(key=lambda x: (-x["prio"], -(x["anniv"] or 0), x["title"]))
+    if sort == "date":
+        result.sort(key=lambda x: (x["date"] or datetime.date(year, month, 28), x["title"]))
+    elif sort == "category":
+        result.sort(key=lambda x: (x["category"], -x["prio"], x["title"]))
+    elif sort == "title":
+        result.sort(key=lambda x: x["title"])
+    else:  # prio
+        result.sort(key=lambda x: (-x["prio"], -(x["anniv"] or 0), x["title"]))
     return result
 
 def get_undated():
@@ -159,23 +165,68 @@ def healthz():
 @app.get("/", response_class=RedirectResponse)
 def root(request: Request):
     now = datetime.datetime.now()
-    return RedirectResponse(url=f"/{now.year}/{now.month}")
+    # default to next month (editor is planning ahead)
+    y, m = now.year, now.month
+    if m == 12:
+        y, m = y + 1, 1
+    else:
+        m += 1
+    return RedirectResponse(url=f"/{y}/{m}")
 
 @app.get("/{year}/{month}", response_class=HTMLResponse)
 def month_view(request: Request, year: int, month: int):
     email = request.headers.get("x-authentik-email", "anonymous")
     name = request.headers.get("x-authentik-username", email)
-    events = compute_for_month(year, month)
+    sort = request.query_params.get("sort", "prio")
+    events = compute_for_month(year, month, sort=sort)
     undated = get_undated()
     issue, picks = get_issue(year, month)
     picked_ids = {p["event_id"] for p in picks}
-    # month names
     month_name = datetime.date(year, month, 1).strftime("%B")
+    # calendar data for right side: counts per day for basket
+    import calendar as cal
+    days_in_month = cal.monthrange(year, month)[1]
+    # map event id -> date for picked items
+    ev_by_id = {e["id"]: e for e in ALL}
+    date_counts = {}
+    basket_by_day = {}
+    for p in picks:
+        ev = ev_by_id.get(p["event_id"])
+        if not ev or ev["isUndated"]:
+            continue
+        # use computed date for this year/month
+        for e in events:
+            if e["id"] == p["event_id"] and e["date"]:
+                d = e["date"].day
+                date_counts[d] = date_counts.get(d, 0) + 1
+                basket_by_day.setdefault(d, []).append(e)
+                break
+    # calendar weeks for rendering
+    first_weekday = datetime.date(year, month, 1).weekday()  # Mon=0
+    # Convert to Sun=0 grid
+    first_weekday_sun = (first_weekday + 1) % 7
+    cal_weeks = []
+    day = 1
+    for wk in range(6):
+        week = []
+        for wd in range(7):
+            if wk == 0 and wd < first_weekday_sun:
+                week.append(None)
+            elif day > days_in_month:
+                week.append(None)
+            else:
+                week.append(day)
+                day += 1
+        cal_weeks.append(week)
+        if day > days_in_month:
+            break
     return templates.TemplateResponse(request, "month.html", {
         "year": year, "month": month, "month_name": month_name,
         "events": events, "undated": undated, "issue": dict(issue), "picks": picks,
         "picked_ids": picked_ids, "email": email, "name": name,
-        "all_events": ALL
+        "all_events": ALL,
+        "days_in_month": days_in_month, "date_counts": date_counts,
+        "basket_by_day": basket_by_day, "cal_weeks": cal_weeks,
     })
 
 @app.post("/{year}/{month}/pick")
@@ -208,29 +259,47 @@ def unpick_event(request: Request, year: int, month: int, event_id: str = Form(.
     return RedirectResponse(url=f"/{year}/{month}", status_code=303)
 
 @app.post("/events/add")
-def add_undated(request: Request, title: str = Form(...), category: str = Form("TLS")):
+def add_undated(request: Request, title: str = Form(...), category: str = Form("TLS"), month: str = Form(""), day: str = Form("")):
     global ALL
     import uuid
-    # add to ALL in-memory and persist to seed? For now just add to in-memory and DB file as event
-    # We'll append to seed.json for persistence
-    new_ev = {"title": title, "month": None, "logic": "undated", "isUndated": True, "category": category, "foundedYear": None}
-    # persist to file
+    # month/day optional — if provided, creates dated event, otherwise undated pool
+    m = None
+    d = None
+    is_undated = True
+    logic = "undated"
+    if month and month.strip() and month != "0":
+        try:
+            m = int(month)
+            d = int(day) if day and day.strip() else 1
+            is_undated = False
+            logic = "fixed"
+        except:
+            m, d = None, None
+            is_undated = True
+            logic = "undated"
+    new_ev = {"title": title, "month": m, "day": d, "logic": logic, "isUndated": is_undated, "category": category, "foundedYear": None}
     try:
         with open(SEED_PATH) as f:
             data = json.load(f)
-        data["existing"].append({"title": title, "event": title, "month": None, "logic": "undated", "isUndated": True, "category": category})
+        data["existing"].append({"title": title, "event": title, "month": m, "day": d, "logic": logic, "isUndated": is_undated, "category": category})
         data["existing_139_count"] = len(data["existing"])
         data["total"] = len(data["existing"]) + len(data.get("new_candidates", []))
         with open(SEED_PATH, "w") as f:
-            json.dump(data, f, indent=2)
+            json.dump(data, f, indent=2, ensure_ascii=False)
     except Exception as e:
         print("persist failed", e)
-    ALL.append({"id": f"e{len(ALL)}", "slug": title.lower().replace(" ", "-"), "title": title, "month": None, "day": None, "logic": "undated", "foundedYear": None, "category": category, "isUndated": True, "raw": new_ev})
-    return RedirectResponse(url="/", status_code=303)
+    ALL.append({"id": f"e{len(ALL)}", "slug": title.lower().replace(" ", "-"), "title": title, "month": m, "day": d, "logic": logic, "foundedYear": None, "category": category, "isUndated": is_undated, "raw": new_ev})
+    # redirect to appropriate month if dated, else next month
+    if m:
+        # find year for redirect: use next occurrence or current view? use current year
+        import datetime as _dt
+        y = _dt.datetime.now().year
+        return RedirectResponse(url=f"/{y}/{m}", status_code=303)
+    return RedirectResponse(url="/", status_code=303)  # goes to next month via /
 
 @app.get("/api/suggestions")
 def api_suggestions(year: int, month: int, sort: str = "prio"):
-    events = compute_for_month(year, month)
+    events = compute_for_month(year, month, sort=sort)
     # serialize
     out = []
     for e in events:

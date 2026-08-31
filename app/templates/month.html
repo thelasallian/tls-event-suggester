@@ -2,61 +2,110 @@
 {% block content %}
 <div>
 <div class="card">
-<h2 style="margin:0 0 8px 0">{{ month_name }} Suggestions <span class="small">sorted by anniversary prio (100/80/60/40)</span></h2>
-<div class="small" style="margin-bottom:12px"><a href="/{{ year }}/{{ month-1 if month>1 else 12 }}">← Prev</a> • <a href="/{{ year }}/{{ month+1 if month<12 else 1 }}">Next →</a> • sort: prio | date | category (default prio)</div>
+<h2 style="margin:0 0 8px 0">{{ month_name }} {{ year }} Suggestions</h2>
+<div class="small" style="margin-bottom:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+<a href="/{{ year }}/{{ month-1 if month>1 else 12 }}">← Prev</a>
+<a href="/">Next month</a>
+<a href="/{{ year }}/{{ month+1 if month<12 else 1 }}">Next →</a>
+<span style="margin-left:auto" class="small">Sort:</span>
+<a href="/{{ year }}/{{ month }}?sort=prio" class="badge" style="background:{% if request.query_params.get('sort','prio')=='prio' %}var(--accent);color:#fff{% else %}#fff{% endif %}">★ Prio</a>
+<a href="/{{ year }}/{{ month }}?sort=date" class="badge" style="background:{% if request.query_params.get('sort')=='date' %}var(--accent);color:#fff{% else %}#fff{% endif %}">Date</a>
+<a href="/{{ year }}/{{ month }}?sort=category" class="badge" style="background:{% if request.query_params.get('sort')=='category' %}var(--accent);color:#fff{% else %}#fff{% endif %}">Category</a>
+<a href="/{{ year }}/{{ month }}?sort=title" class="badge" style="background:{% if request.query_params.get('sort')=='title' %}var(--accent);color:#fff{% else %}#fff{% endif %}">A-Z</a>
+</div>
 {% for ev in events %}
 <div class="event">
 <div>
 <div style="font-weight:600">{{ ev.title }} <span class="small">• {{ ev.category }}</span></div>
-<div class="small">{% if ev.date %}{{ ev.date.strftime("%b %d, %Y") }}{% else %}TBA{% endif %} {% if ev.anniv %}• {{ ev.anniv }}th anniversary • prio {{ ev.prio }}{% endif %} {% if ev.logic %}<span class="badge">{{ ev.logic }}</span>{% endif %}</div>
+<div class="small">{% if ev.date %}{{ ev.date.strftime("%b %d") }}{% else %}TBA{% endif %} {% if ev.anniv %}• {{ ev.anniv }}th • prio {{ ev.prio }}{% endif %} <span class="badge">{{ ev.logic }}</span></div>
 </div>
-<div style="text-align:right">
+<div style="text-align:right;display:flex;gap:6px;align-items:center">
 {% if ev.anniv and ev.prio >=40 %}<span class="badge prio-{{ ev.prio }}">★ {{ ev.anniv }}th</span>{% endif %}
 {% if ev.id in picked_ids %}
+<span class="small" style="color:var(--accent)">in basket</span>
 <form method="post" action="/{{ year }}/{{ month }}/unpick" style="display:inline"><input type="hidden" name="event_id" value="{{ ev.id }}"><button class="btn">Remove</button></form>
 {% else %}
-<form method="post" action="/{{ year }}/{{ month }}/pick" style="display:inline"><input type="hidden" name="event_id" value="{{ ev.id }}"><button class="btn primary">Add →</button></form>
+<form method="post" action="/{{ year }}/{{ month }}/pick" style="display:inline"><input type="hidden" name="event_id" value="{{ ev.id }}"><button class="btn primary">Add to basket</button></form>
 {% endif %}
 </div>
 </div>
 {% endfor %}
-{% if not events %}<div class="small">No dated events for this month. Add from undated pool.</div>{% endif %}
+{% if not events %}<div class="small">No dated events for this month.</div>{% endif %}
 </div>
 
 <div class="card" style="margin-top:16px">
-<h3 style="margin:0 0 8px 0">Undated Pool <span class="small">no month/day — add to any issue</span></h3>
+<h3 style="margin:0 0 8px 0">Add your own event</h3>
+<div class="small" style="margin-bottom:8px">Creates a new event — leave month/day empty for undated pool, or set both to make it appear in a month.</div>
+<form method="post" action="/events/add" style="display:flex;gap:8px;flex-wrap:wrap;align-items:end">
+<div style="flex:2;min-width:180px"><label class="small">Title</label><br><input name="title" required placeholder="e.g. My Custom Event" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:8px"></div>
+<div><label class="small">Category</label><br><select name="category" style="padding:8px;border:1px solid var(--line);border-radius:8px"><option>GLOBAL</option><option>PHILIPPINES</option><option>MANILA</option><option>DLSU</option><option selected>TLS</option></select></div>
+<div><label class="small">Month (1-12, blank=pool)</label><br><input name="month" type="number" min="1" max="12" placeholder="9" style="width:80px;padding:8px;border:1px solid var(--line);border-radius:8px"></div>
+<div><label class="small">Day</label><br><input name="day" type="number" min="1" max="31" placeholder="15" style="width:70px;padding:8px;border:1px solid var(--line);border-radius:8px"></div>
+<button class="btn primary" style="height:36px">Add event</button>
+</form>
+</div>
+
+<div class="card" style="margin-top:16px">
+<h3 style="margin:0 0 8px 0">Undated Pool <span class="small">{{ undated|length }} items — no date, add to any month</span></h3>
 {% for ev in undated %}
 <div class="event">
 <div><div style="font-weight:600">{{ ev.title }}</div><div class="small">{{ ev.category }} • {{ ev.logic }}</div></div>
-<div>{% if ev.id in picked_ids %}<span class="small">picked</span>{% else %}<form method="post" action="/{{ year }}/{{ month }}/pick"><input type="hidden" name="event_id" value="{{ ev.id }}"><button class="btn">Add →</button></form>{% endif %}</div>
+<div>{% if ev.id in picked_ids %}<span class="small">in basket</span>{% else %}<form method="post" action="/{{ year }}/{{ month }}/pick"><input type="hidden" name="event_id" value="{{ ev.id }}"><button class="btn">Add to basket</button></form>{% endif %}</div>
 </div>
 {% endfor %}
-<form method="post" action="/events/add" style="margin-top:12px;display:flex;gap:8px">
-<input name="title" placeholder="Add custom to pool (no date required)" style="flex:1;padding:8px;border:1px solid var(--line);border-radius:8px">
-<select name="category" style="padding:8px;border:1px solid var(--line);border-radius:8px"><option>GLOBAL</option><option>PHILIPPINES</option><option>MANILA</option><option>DLSU</option><option>TLS</option></select>
-<button class="btn primary">Add</button>
-</form>
+{% if not undated %}<div class="small">Pool empty.</div>{% endif %}
 </div>
 </div>
 
 <div>
+<!-- BASKET -->
 <div class="card">
-<h3 style="margin:0 0 8px 0">{{ month_name }} {{ year }} Issue <span class="small">shared state</span></h3>
-<div class="small" style="margin-bottom:8px">Status: {{ issue.status }} • Picks: {{ picks|length }}</div>
+<h3 style="margin:0 0 8px 0">Basket — {{ month_name }} {{ year }} <span class="badge">{{ picks|length }} items</span></h3>
+<div class="small" style="margin-bottom:8px">Shared basket • v{{ issue.version }}</div>
 {% for p in picks %}
 {% set ev = all_events | selectattr("id", "equalto", p.event_id) | first %}
 <div class="event">
-<div><div style="font-weight:600">{{ ev.title if ev else p.event_id }}</div><div class="small">by {{ p.added_by }} • {{ p.status }}</div></div>
+<div><div style="font-weight:600">{{ ev.title if ev else p.event_id }}</div><div class="small">by {{ p.added_by }}</div></div>
 <form method="post" action="/{{ year }}/{{ month }}/unpick"><input type="hidden" name="event_id" value="{{ p.event_id }}"><button class="btn">Remove</button></form>
 </div>
 {% endfor %}
-{% if not picks %}<div class="small">No picks yet. Add from left.</div>{% endif %}
-<div style="margin-top:12px" class="small">Current user: {{ email }} • changes visible to all editors (last-write-wins, version {{ issue.version }})</div>
+{% if not picks %}<div class="small" style="padding:8px;background:#fafafa;border-radius:8px">Basket empty. Add suggestions from left.</div>{% endif %}
+</div>
+
+<!-- CALENDAR -->
+<div class="card" style="margin-top:16px">
+<h3 style="margin:0 0 8px 0">Calendar <span class="small">{{ month_name }} {{ year }}</span></h3>
+<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:11px;color:var(--muted);margin-bottom:6px">
+<div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
+{% for week in cal_weeks %}
+{% for d in week %}
+{% if d is none %}
+<div style="height:42px"></div>
+{% else %}
+{% set cnt = date_counts.get(d, 0) %}
+<div style="height:42px;border:1px solid var(--line);border-radius:8px;padding:4px;text-align:center;background:{% if cnt>0 %}#e8f5e9{% else %}#fff{% endif %};position:relative">
+<div style="font-size:12px;font-weight:600">{{ d }}</div>
+{% if cnt >0 %}<div class="badge" style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;border-color:var(--accent);font-size:10px;padding:1px 5px">{{ cnt }}</div>{% endif %}
+</div>
+{% endif %}
+{% endfor %}
+{% endfor %}
+</div>
+<div class="small" style="margin-top:8px">Number = basket items on that day (hidden if 0).</div>
+{% if basket_by_day %}
+<div style="margin-top:8px">
+{% for day, evs in basket_by_day|dictsort %}
+<div class="small"><strong>{{ day }}:</strong> {% for e in evs %}{{ e.title }}{% if not loop.last %}, {% endif %}{% endfor %}</div>
+{% endfor %}
+</div>
+{% endif %}
 </div>
 
 <div class="card" style="margin-top:16px">
 <h3 style="margin:0 0 8px 0">API</h3>
-<div class="small"><a href="/api/suggestions?year={{ year }}&month={{ month }}">/api/suggestions?year={{ year }}&month={{ month }}</a><br><a href="/api/pool">/api/pool</a> • <a href="/healthz">/healthz</a></div>
+<div class="small"><a href="/api/suggestions?year={{ year }}&month={{ month }}&sort={{ request.query_params.get('sort','prio') }}">/api/suggestions</a> • <a href="/api/pool">/api/pool</a> • <a href="/healthz">/healthz</a></div>
 </div>
 </div>
 {% endblock %}
