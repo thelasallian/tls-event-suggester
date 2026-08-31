@@ -67,7 +67,24 @@ document.getElementById('eventTable').addEventListener('mousemove', e=>{
 });
 document.addEventListener('mouseup', ()=>{dragCol=null;});
 </script>
-<div class="muted" style="margin-top:12px">Generated {{ now.strftime("%Y-%m-%d %H:%M %PHT") }} • <a href="/{{ year }}/{{ month }}/export">Download CSV</a> (also 2 cols)</div>
+<div style="margin-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+<button class="btn primary" onclick="copyForSheets()">Copy for Sheets (tab + \n)</button>
+<span class="small">— copies as <code>Event&#9;Date\n</code> rows, paste directly into Sheets</span>
+<a href="/{{ year }}/{{ month }}/export" class="btn">Download CSV</a>
+</div>
+<div class="muted" style="margin-top:8px">Generated {{ now.strftime("%Y-%m-%d %H:%M %PHT") }}</div>
+<script>
+function copyForSheets(){
+  const rows = Array.from(document.querySelectorAll('#eventTable tbody tr')).map(tr => {
+    const cells = Array.from(tr.cells).map(td => td.innerText.trim());
+    return cells.join('\t');
+  }).join('\n');
+  // Include header
+  const header = Array.from(document.querySelectorAll('#eventTable thead th')).map(th=>th.innerText.trim()).join('\t');
+  const tsv = header + '\n' + rows;
+  navigator.clipboard.writeText(tsv).then(()=>alert('Copied '+rows.split('\n').length+' rows as TSV — paste into Sheets'), ()=>{prompt('Copy manually:', tsv)});
+}
+</script>
 </div>
 </body>
 </html>
