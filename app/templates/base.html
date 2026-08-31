@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Event Suggester{% endblock %}</title>
+<style>
+:root{--bg:#f8f7f5;--card:#fff;--ink:#1a1a1a;--muted:#6b6b6b;--accent:#1a3a2a;--line:#e5e5e5}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+header{padding:16px 24px;background:var(--card);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+h1{margin:0;font-size:18px;letter-spacing:-0.02em}
+.muted{color:var(--muted);font-size:13px}
+.container{max-width:1100px;margin:24px auto;padding:0 16px;display:grid;grid-template-columns:2fr 1fr;gap:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.event{padding:12px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px}
+.event:last-child{border:0}
+.badge{font-size:11px;padding:3px 7px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+.badge.prio-100{background:var(--accent);color:#fff;border-color:var(--accent)}
+.badge.prio-80,.badge.prio-60{background:#2a5a3a;color:#fff}
+.badge.prio-40{background:#e8f0e8;color:#1a3a2a}
+.small{font-size:13px;color:var(--muted)}
+.btn{padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);cursor:pointer;font-size:13px}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+a{color:var(--accent);text-decoration:none}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+</style>
+</head>
+<body>
+<header>
+<div><h1>Event Suggester — {{ month_name }} {{ year }}</h1><div class="small">The Lasallian • <a href="/">Today</a> • {{ email }}</div></div>
+<div class="muted">Shared state • v{{ issue.version if issue else 1 }}</div>
+</header>
+<main class="container">
+{% block content %}{% endblock %}
+</main>
+</body>
+</html>

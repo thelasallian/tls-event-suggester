@@ -1,0 +1,19 @@
+services:
+  tls-event-suggester:
+    build: .
+    restart: unless-stopped
+    expose:
+      - "8000"
+    volumes:
+      - ./app/events.db:/srv/app/events.db
+      - ./app/seed.json:/srv/app/seed.json
+    networks:
+      - tls-network
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request as u; u.urlopen('http://localhost:8000/healthz')\""]
+      interval: 30s
+      timeout: 5s
+networks:
+  tls-network:
+    external: true
+    name: tls-network
