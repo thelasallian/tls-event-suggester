@@ -34,15 +34,33 @@
 </div>
 
 <div class="card" style="margin-top:16px">
-<h3 style="margin:0 0 8px 0">Add your own event</h3>
-<div class="small" style="margin-bottom:8px">Creates a new event — leave month/day empty for undated pool, or set both to make it appear in a month.</div>
-<form method="post" action="/events/add" style="display:flex;gap:8px;flex-wrap:wrap;align-items:end">
-<div style="flex:2;min-width:180px"><label class="small">Title</label><br><input name="title" required placeholder="e.g. My Custom Event" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:8px"></div>
+<h3 style="margin:0 0 8px 0">Add your own event <span class="small">— supports all 10 cases</span></h3>
+<div class="small" style="margin-bottom:8px">Cases: <b>fixed</b> Jun 12 · <b>fixed_month</b> June · <b>movable_nth</b> 2nd Sun May / Last Mon Aug (−1) · <b>undated</b> pool</div>
+<form method="post" action="/events/add" id="addForm" style="display:flex;gap:8px;flex-wrap:wrap;align-items:end">
+<div style="flex:2;min-width:180px"><label class="small">Title *</label><br><input name="title" required placeholder="e.g. My Custom Event" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:8px"></div>
 <div><label class="small">Category</label><br><select name="category" style="padding:8px;border:1px solid var(--line);border-radius:8px"><option>GLOBAL</option><option>PHILIPPINES</option><option>MANILA</option><option>DLSU</option><option selected>TLS</option></select></div>
-<div><label class="small">Month (1-12, blank=pool)</label><br><input name="month" type="number" min="1" max="12" placeholder="9" style="width:80px;padding:8px;border:1px solid var(--line);border-radius:8px"></div>
-<div><label class="small">Day</label><br><input name="day" type="number" min="1" max="31" placeholder="15" style="width:70px;padding:8px;border:1px solid var(--line);border-radius:8px"></div>
+<div><label class="small">Logic</label><br><select name="logic" id="logicSel" style="padding:8px;border:1px solid var(--line);border-radius:8px" onchange="toggleLogic()">
+<option value="fixed">fixed — Every Month Day (e.g. Jun 12)</option>
+<option value="fixed_month">fixed_month — Whole Month (e.g. June)</option>
+<option value="movable_nth">movable_nth — Nth weekday (e.g. 2nd Sun May, Last Mon Aug)</option>
+<option value="undated">undated — No date (pool only)</option>
+</select></div>
+<div id="fixedFields" style="display:flex;gap:8px"><div><label class="small">Month 1-12</label><br><input name="month" type="number" min="1" max="12" placeholder="9" style="width:80px;padding:8px;border:1px solid var(--line);border-radius:8px"></div><div><label class="small">Day 1-31 (29→Feb28 if not leap)</label><br><input name="day" type="number" min="1" max="31" placeholder="15" style="width:90px;padding:8px;border:1px solid var(--line);border-radius:8px"></div></div>
+<div id="nthFields" style="display:none;gap:8px"><div><label class="small">Nth</label><br><select name="nth" style="padding:8px;border:1px solid var(--line);border-radius:8px"><option value="1">1st</option><option value="2">2nd</option><option value="3">3rd</option><option value="4">4th</option><option value="last">Last</option><option value="-1">-1 (alias Last)</option></select></div><div><label class="small">Weekday</label><br><select name="weekday" style="padding:8px;border:1px solid var(--line);border-radius:8px"><option value="0">Sun</option><option value="1">Mon</option><option value="2">Tue</option><option value="3">Wed</option><option value="4">Thu</option><option value="5">Fri</option><option value="6">Sat</option></select></div><div><label class="small">Of Month</label><br><input name="nth_month" type="number" min="1" max="12" placeholder="9" style="width:80px;padding:8px;border:1px solid var(--line);border-radius:8px"></div></div>
 <button class="btn primary" style="height:36px">Add event</button>
 </form>
+<script>
+function toggleLogic(){
+  const v=document.getElementById('logicSel').value;
+  document.getElementById('fixedFields').style.display=(v==='fixed')?'flex':'none';
+  document.getElementById('nthFields').style.display=(v==='movable_nth')?'flex':'none';
+  // fixed_month shows only month (hide day)
+  if(v==='fixed_month'){document.getElementById('fixedFields').style.display='flex'; document.querySelector('input[name=day]').parentElement.style.display='none';}
+  else if(v==='fixed'){document.querySelector('input[name=day]').parentElement.style.display='block';}
+  if(v==='undated'){document.getElementById('fixedFields').style.display='none';}
+}
+toggleLogic();
+</script>
 </div>
 
 <div class="card" style="margin-top:16px">
@@ -58,18 +76,34 @@
 </div>
 
 <div>
-<!-- BASKET -->
+<!-- BASKET (editable dates, persists, shared) -->
 <div class="card">
 <h3 style="margin:0 0 8px 0">Basket — {{ month_name }} {{ year }} <span class="badge">{{ picks|length }} items</span></h3>
-<div class="small" style="margin-bottom:8px">Shared basket • v{{ issue.version }}</div>
+<div class="small" style="margin-bottom:8px">Shared basket • v{{ issue.version }} • dates editable (only this basket/export, persists for all)</div>
 {% for p in picks %}
 {% set ev = all_events | selectattr("id", "equalto", p.event_id) | first %}
-<div class="event">
-<div><div style="font-weight:600">{{ ev.title if ev else p.event_id }}</div><div class="small">by {{ p.added_by }}</div></div>
+{% set eff = pick_effective.get(p.id) %}
+<div class="event" style="flex-direction:column;align-items:stretch">
+<div style="display:flex;justify-content:space-between;gap:8px">
+<div><div style="font-weight:600">{{ ev.title if ev else p.event_id }}</div><div class="small">by {{ p.added_by }} • {% if eff %}{{ eff.strftime("%b %d, %Y") }}{% else %}no date (undated){% endif %}</div></div>
 <form method="post" action="/{{ year }}/{{ month }}/unpick"><input type="hidden" name="event_id" value="{{ p.event_id }}"><button class="btn">Remove</button></form>
 </div>
+<div style="display:flex;gap:6px;margin-top:6px;align-items:center;flex-wrap:wrap">
+<form method="post" action="/{{ year }}/{{ month }}/update_date" style="display:flex;gap:6px;align-items:center">
+<input type="hidden" name="event_id" value="{{ p.event_id }}">
+<input type="date" name="custom_date" value="{{ eff.isoformat() if eff else '' }}" style="padding:6px;border:1px solid var(--line);border-radius:8px;font-size:13px">
+<button class="btn" type="submit">Save date</button>
+</form>
+{% if p.custom_date %}<form method="post" action="/{{ year }}/{{ month }}/update_date"><input type="hidden" name="event_id" value="{{ p.event_id }}"><input type="hidden" name="custom_date" value=""><button class="btn" type="submit">Clear</button></form>{% endif %}
+<span class="small">edit affects only this basket/export</span>
+</div>
+</div>
 {% endfor %}
-{% if not picks %}<div class="small" style="padding:8px;background:#fafafa;border-radius:8px">Basket empty. Add suggestions from left.</div>{% endif %}
+{% if not picks %}<div class="small" style="padding:8px;background:#fafafa;border-radius:8px">Basket empty. Add suggestions from left or undated pool (then set date).</div>{% endif %}
+<div style="margin-top:12px;display:flex;gap:8px">
+<a href="/{{ year }}/{{ month }}/export" class="btn primary">Export CSV (2 cols: Event, Date)</a>
+<span class="small">for the year {{ year }}</span>
+</div>
 </div>
 
 <!-- CALENDAR -->
