@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ month_name }} {{ year }} — Event Table</title>
+<style>
+:root{--bg:#f8f7f5;--card:#fff;--ink:#1a1a1a;--muted:#6b6b6b;--accent:#1a3a2a;--line:#e5e5e5}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+header{padding:16px 24px;background:var(--card);border-bottom:1px solid var(--line)}
+h1{margin:0;font-size:20px;letter-spacing:-0.02em}
+.container{max-width:800px;margin:24px auto;padding:0 16px}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:#f1f1f1;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em}
+td{font-size:14px}
+.muted{color:var(--muted);font-size:13px}
+a{color:var(--accent);text-decoration:none}
+.badge{font-size:11px;padding:3px 7px;border-radius:999px;border:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header>
+<h1>{{ month_name }} {{ year }} — Event Table</h1>
+<div class="muted">The Lasallian • {{ rows|length }} events • Shareable (no login) • <a href="/{{ year }}/{{ month }}">Back to basket</a></div>
+</header>
+<div class="container">
+<table>
+<thead><tr><th>Event</th><th>Date ({{ year }})</th></tr></thead>
+<tbody>
+{% for title, date_str in rows %}
+<tr><td>{{ title }}</td><td>{{ date_str or "—" }}</td></tr>
+{% endfor %}
+{% if not rows %}<tr><td colspan="2" class="muted">No events in basket yet.</td></tr>{% endif %}
+</tbody>
+</table>
+<div class="muted" style="margin-top:12px">Generated {{ now.strftime("%Y-%m-%d %H:%M %PHT") }} • <a href="/{{ year }}/{{ month }}/export">Download CSV</a> (also 2 cols)</div>
+</div>
+</body>
+</html>

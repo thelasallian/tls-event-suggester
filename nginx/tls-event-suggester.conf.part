@@ -23,6 +23,16 @@ server {
         add_header Set-Cookie $auth_cookie;
     }
 
+    # Public table (no login) — shareable per month:year
+    location ~ ^/\d{4}/\d{1,2}/(table|export)$ {
+        resolver 127.0.0.11 valid=30s;
+        set $upstream_app tls-event-suggester;
+        proxy_pass http://$upstream_app:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        # no auth_request — public
+    }
+
     location / {
         resolver 127.0.0.11 valid=30s;
         set $upstream_auth authentik-server-1;

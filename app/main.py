@@ -355,6 +355,32 @@ def update_pick_date(request: Request, year: int, month: int, event_id: str = Fo
     con.close()
     return RedirectResponse(url=f"/{year}/{month}", status_code=303)
 
+@app.get("/{year}/{month}/table", response_class=HTMLResponse)
+def table_basket(request: Request, year: int, month: int):
+    # Shareable table (no login required) — 2 cols: Event, Date
+    issue, picks = get_issue(year, month)
+    ev_by_id = {e["id"]: e for e in ALL}
+    events_by_id = {e["id"]: e for e in compute_for_month(year, month)}
+    rows = []
+    for p in picks:
+        ev = ev_by_id.get(p["event_id"])
+        title = ev["title"] if ev else p["event_id"]
+        cd = p["custom_date"] if "custom_date" in p.keys() and p["custom_date"] else None
+        if cd:
+            date_str = cd
+        else:
+            comp = events_by_id.get(p["event_id"])
+            if comp and comp["date"]:
+                date_str = comp["date"].isoformat()
+            elif ev and ev.get("day") and ev.get("month"):
+                try: date_str = compute_fixed_date(year, ev["month"], ev["day"]).isoformat()
+                except: date_str = ""
+            else:
+                date_str = ""
+        rows.append((title, date_str))
+    rows.sort(key=lambda x: (x[1] or "9999-12-31", x[0]))
+    return templates.TemplateResponse("table.html", {"request": request, "year": year, "month": month, "month_name": datetime.date(year, month, 1).strftime("%B"), "rows": rows, "now": datetime.datetime.now()})
+
 @app.get("/{year}/{month}/export")
 def export_basket(request: Request, year: int, month: int):
     # 2 columns: Event, Date (for the year) — uses custom_date if set, else computed
