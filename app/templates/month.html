@@ -127,14 +127,7 @@ toggleLogic();
 {% endfor %}
 {% endfor %}
 </div>
-<div class="small" style="margin-top:8px">Number = basket items on that day (hidden if 0).</div>
-{% if basket_by_day %}
-<div style="margin-top:8px">
-{% for day, evs in basket_by_day|dictsort %}
-<div class="small"><strong>{{ day }}:</strong> {% for e in evs %}{{ e.title }}{% if not loop.last %}, {% endif %}{% endfor %}</div>
-{% endfor %}
-</div>
-{% endif %}
+<div class="small" style="margin-top:8px">Number = basket items on that day (hidden if 0). Calendar reflects edited dates.</div>
 </div>
 
 <div class="card" style="margin-top:16px">
