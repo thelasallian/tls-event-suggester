@@ -1,0 +1,56 @@
+name: cd
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: cd-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install deps
+        run: pip install fastapi uvicorn jinja2 python-multipart httpx pytest
+      - name: Run tests
+        run: pytest -q
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up deploy key
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.TLS_EVENT_SUGGESTER_SSH_KEY }}" > ~/.ssh/cd_key
+          chmod 600 ~/.ssh/cd_key
+          ssh-keyscan -p ${{ secrets.TLS_EVENT_SUGGESTER_SSH_PORT }} ${{ secrets.TLS_EVENT_SUGGESTER_SSH_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Rsync app
+        run: |
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/cd_key -p ${{ secrets.TLS_EVENT_SUGGESTER_SSH_PORT }}" \
+            --exclude .env --exclude __pycache__ --exclude node_modules --exclude events.db --exclude .git \
+            ./ ${{ secrets.TLS_EVENT_SUGGESTER_SSH_USER }}@${{ secrets.TLS_EVENT_SUGGESTER_SSH_HOST }}:tls-event-suggester/
+
+      - name: Rebuild + restart
+        run: |
+          SSH="ssh -i ~/.ssh/cd_key -p ${{ secrets.TLS_EVENT_SUGGESTER_SSH_PORT }} ${{ secrets.TLS_EVENT_SUGGESTER_SSH_USER }}@${{ secrets.TLS_EVENT_SUGGESTER_SSH_HOST }}"
+          $SSH 'cd ~/tls-event-suggester && docker compose up -d --build 2>&1 | tail -n 20'
+          $SSH 'docker ps --filter name=tls-event --format "{{.Names}} {{.Status}}"'
+
+      - name: Health check
+        run: |
+          sleep 5
+          ssh -i ~/.ssh/cd_key -p ${{ secrets.TLS_EVENT_SUGGESTER_SSH_PORT }} \
+            ${{ secrets.TLS_EVENT_SUGGESTER_SSH_USER }}@${{ secrets.TLS_EVENT_SUGGESTER_SSH_HOST }} \
+            'docker exec tls-event-suggester-tls-event-suggester-1 python -c "import urllib.request as u; print(u.urlopen(\"http://localhost:8000/healthz\", timeout=10).read().decode())"'
