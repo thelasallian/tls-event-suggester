@@ -421,6 +421,94 @@ def export_basket(request: Request, year: int, month: int):
     csv = "\n".join(lines)
     return PlainTextResponse(csv, media_type="text/csv; charset=utf-8", headers={"Content-Disposition": f'attachment; filename="basket-{year}-{month:02d}.csv"'})
 
+@app.get("/pool", response_class=HTMLResponse)
+def pool_view(request: Request):
+    email = request.headers.get("x-authentik-email", "anonymous")
+    # sort by month/day/title for pool view
+    sorted_events = sorted(ALL, key=lambda e: ((e["month"] or 99), (e["day"] or 99), e["title"]))
+    return templates.TemplateResponse("pool.html", {"request": request, "events": sorted_events, "email": email, "now": datetime.datetime.now()})
+
+@app.post("/pool/edit")
+def pool_edit(request: Request, event_id: str = Form(...), title: str = Form(...), category: str = Form(...), logic: str = Form(...), month: str = Form(""), day: str = Form(""), nth: str = Form(""), weekday: str = Form(""), nth_month: str = Form("")):
+    global ALL
+    # find event
+    ev = next((e for e in ALL if e["id"] == event_id), None)
+    if not ev:
+        raise HTTPException(status_code=404)
+    # update in-memory
+    ev["title"] = title.strip()
+    ev["category"] = category.strip()
+    ev["logic"] = logic.strip()
+    # handle month/day/rule
+    try:
+        if logic == "fixed":
+            ev["month"] = int(month) if month.strip() else None
+            ev["day"] = int(day) if day.strip() else None
+            ev["isUndated"] = ev["month"] is None
+            ev["raw"]["logic"] = logic
+            ev["raw"]["month"] = ev["month"]
+            ev["raw"]["day"] = ev["day"]
+            ev["raw"].pop("rule", None)
+        elif logic == "fixed_month":
+            ev["month"] = int(month) if month.strip() else None
+            ev["day"] = None
+            ev["isUndated"] = ev["month"] is None
+            ev["raw"]["logic"] = logic
+            ev["raw"]["month"] = ev["month"]
+            ev["raw"].pop("day", None)
+            ev["raw"].pop("rule", None)
+        elif logic == "movable_nth":
+            n_raw = nth.strip().lower() if nth else ""
+            n = -1 if n_raw in ("-1","last") else int(n_raw) if n_raw else 1
+            if n == -1: n = "last"
+            wd = int(weekday) if weekday.strip() else 0
+            m = int(nth_month) if nth_month.strip() else (int(month) if month.strip() else None)
+            ev["month"] = m
+            ev["day"] = None
+            ev["isUndated"] = m is None
+            ev["raw"]["logic"] = logic
+            ev["raw"]["rule"] = {"n": n, "weekday": wd, "month": m}
+            ev["raw"]["month"] = m
+        elif logic == "undated":
+            ev["month"] = None
+            ev["day"] = None
+            ev["isUndated"] = True
+            ev["raw"]["logic"] = logic
+            ev["raw"].pop("rule", None)
+    except Exception as e:
+        print("pool edit parse failed", e)
+    # persist to seed.json
+    try:
+        with open(SEED_PATH) as f:
+            data = json.load(f)
+        # data is list
+        if isinstance(data, list):
+            for d in data:
+                if str(d.get("id")) == event_id.replace("e","") or d.get("title") == ev["title"] or (d.get("event")==ev["title"]):
+                    # update by matching id or title
+                    if d.get("id") == int(event_id[1:]) or d.get("title")==title or d.get("event")==title:
+                        d["title"] = title
+                        d["event"] = title
+                        d["category"] = category
+                        d["logic"] = logic
+                        d["month"] = ev["month"]
+                        d["day"] = ev["day"]
+                        if ev["raw"].get("rule"):
+                            d["rule"] = ev["raw"]["rule"]
+                        else:
+                            d.pop("rule", None)
+                        break
+            # also try direct index match
+            idx = int(event_id[1:])
+            if 0 <= idx < len(data) and data[idx].get("id")==int(event_id[1:]):
+                # already updated above, but ensure
+                pass
+        with open(SEED_PATH, "w") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        print("pool persist failed", e)
+    return RedirectResponse(url="/pool", status_code=303)
+
 @app.post("/events/add")
 def add_undated(
     request: Request,

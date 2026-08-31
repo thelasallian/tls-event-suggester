@@ -3143,5 +3143,472 @@
     "accuracy_status": "FILLED_BLANKS",
     "audit_notes": "Verified date (Aug 26). 104th birth anniversary in 2026.",
     "event": "Jose W. Diokno Birth Anniversary"
+  },
+  {
+    "id": 186,
+    "title": "My Custom Test Event 123",
+    "event": "My Custom Test Event 123",
+    "month": null,
+    "day": null,
+    "logic": "undated",
+    "isUndated": true,
+    "category": "TLS",
+    "rule": null
+  },
+  {
+    "id": 187,
+    "title": "Dated Sept 15 Event",
+    "event": "Dated Sept 15 Event",
+    "month": "SEPTEMBER",
+    "day": 15,
+    "logic": "fixed",
+    "isUndated": false,
+    "category": "MANILA",
+    "rule": null
+  },
+  {
+    "id": 188,
+    "title": "Test Fixed Month June",
+    "event": "Test Fixed Month June",
+    "month": "JUNE",
+    "day": null,
+    "logic": "fixed_month",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": null
+  },
+  {
+    "id": 189,
+    "title": "Test 2nd Sun May",
+    "event": "Test 2nd Sun May",
+    "month": "MAY",
+    "day": null,
+    "logic": "movable_nth",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": {
+      "n": 2,
+      "weekday": 0,
+      "month": 5
+    }
+  },
+  {
+    "id": 190,
+    "title": "Test Last Mon Aug -1",
+    "event": "Test Last Mon Aug -1",
+    "month": "AUGUST",
+    "day": null,
+    "logic": "movable_nth",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": {
+      "n": "last",
+      "weekday": 1,
+      "month": 8
+    }
+  },
+  {
+    "id": 191,
+    "title": "Test Last Mon Aug str",
+    "event": "Test Last Mon Aug str",
+    "month": "AUGUST",
+    "day": null,
+    "logic": "movable_nth",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": {
+      "n": "last",
+      "weekday": 1,
+      "month": 8
+    }
+  },
+  {
+    "id": 192,
+    "title": "Br Andrew Feb29 Test",
+    "event": "Br Andrew Feb29 Test",
+    "month": "FEBRUARY",
+    "day": 29,
+    "logic": "fixed",
+    "isUndated": false,
+    "category": "DLSU",
+    "rule": null
+  },
+  {
+    "id": 193,
+    "title": "My Custom Test Event 123",
+    "event": "My Custom Test Event 123",
+    "month": null,
+    "day": null,
+    "logic": "undated",
+    "isUndated": true,
+    "category": "TLS",
+    "rule": null
+  },
+  {
+    "id": 194,
+    "title": "Dated Sept 15 Event",
+    "event": "Dated Sept 15 Event",
+    "month": "SEPTEMBER",
+    "day": 15,
+    "logic": "fixed",
+    "isUndated": false,
+    "category": "MANILA",
+    "rule": null
+  },
+  {
+    "id": 195,
+    "title": "Test Fixed Month June",
+    "event": "Test Fixed Month June",
+    "month": "JUNE",
+    "day": null,
+    "logic": "fixed_month",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": null
+  },
+  {
+    "id": 196,
+    "title": "Test 2nd Sun May",
+    "event": "Test 2nd Sun May",
+    "month": "MAY",
+    "day": null,
+    "logic": "movable_nth",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": {
+      "n": 2,
+      "weekday": 0,
+      "month": 5
+    }
+  },
+  {
+    "id": 197,
+    "title": "Test Last Mon Aug -1",
+    "event": "Test Last Mon Aug -1",
+    "month": "AUGUST",
+    "day": null,
+    "logic": "movable_nth",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": {
+      "n": "last",
+      "weekday": 1,
+      "month": 8
+    }
+  },
+  {
+    "id": 198,
+    "title": "Test Last Mon Aug str",
+    "event": "Test Last Mon Aug str",
+    "month": "AUGUST",
+    "day": null,
+    "logic": "movable_nth",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": {
+      "n": "last",
+      "weekday": 1,
+      "month": 8
+    }
+  },
+  {
+    "id": 199,
+    "title": "Br Andrew Feb29 Test",
+    "event": "Br Andrew Feb29 Test",
+    "month": "FEBRUARY",
+    "day": 29,
+    "logic": "fixed",
+    "isUndated": false,
+    "category": "DLSU",
+    "rule": null
+  },
+  {
+    "id": 200,
+    "title": "My Custom Test Event 123",
+    "event": "My Custom Test Event 123",
+    "month": null,
+    "day": null,
+    "logic": "undated",
+    "isUndated": true,
+    "category": "TLS",
+    "rule": null
+  },
+  {
+    "id": 201,
+    "title": "Dated Sept 15 Event",
+    "event": "Dated Sept 15 Event",
+    "month": "SEPTEMBER",
+    "day": 15,
+    "logic": "fixed",
+    "isUndated": false,
+    "category": "MANILA",
+    "rule": null
+  },
+  {
+    "id": 202,
+    "title": "Test Fixed Month June",
+    "event": "Test Fixed Month June",
+    "month": "JUNE",
+    "day": null,
+    "logic": "fixed_month",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": null
+  },
+  {
+    "id": 203,
+    "title": "Test 2nd Sun May",
+    "event": "Test 2nd Sun May",
+    "month": "MAY",
+    "day": null,
+    "logic": "movable_nth",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": {
+      "n": 2,
+      "weekday": 0,
+      "month": 5
+    }
+  },
+  {
+    "id": 204,
+    "title": "Test Last Mon Aug -1",
+    "event": "Test Last Mon Aug -1",
+    "month": "AUGUST",
+    "day": null,
+    "logic": "movable_nth",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": {
+      "n": "last",
+      "weekday": 1,
+      "month": 8
+    }
+  },
+  {
+    "id": 205,
+    "title": "Test Last Mon Aug str",
+    "event": "Test Last Mon Aug str",
+    "month": "AUGUST",
+    "day": null,
+    "logic": "movable_nth",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": {
+      "n": "last",
+      "weekday": 1,
+      "month": 8
+    }
+  },
+  {
+    "id": 206,
+    "title": "Br Andrew Feb29 Test",
+    "event": "Br Andrew Feb29 Test",
+    "month": "FEBRUARY",
+    "day": 29,
+    "logic": "fixed",
+    "isUndated": false,
+    "category": "DLSU",
+    "rule": null
+  },
+  {
+    "id": 207,
+    "title": "My Custom Test Event 123",
+    "event": "My Custom Test Event 123",
+    "month": null,
+    "day": null,
+    "logic": "undated",
+    "isUndated": true,
+    "category": "TLS",
+    "rule": null
+  },
+  {
+    "id": 208,
+    "title": "Dated Sept 15 Event",
+    "event": "Dated Sept 15 Event",
+    "month": "SEPTEMBER",
+    "day": 15,
+    "logic": "fixed",
+    "isUndated": false,
+    "category": "MANILA",
+    "rule": null
+  },
+  {
+    "id": 209,
+    "title": "Test Fixed Month June",
+    "event": "Test Fixed Month June",
+    "month": "JUNE",
+    "day": null,
+    "logic": "fixed_month",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": null
+  },
+  {
+    "id": 210,
+    "title": "Test 2nd Sun May",
+    "event": "Test 2nd Sun May",
+    "month": "MAY",
+    "day": null,
+    "logic": "movable_nth",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": {
+      "n": 2,
+      "weekday": 0,
+      "month": 5
+    }
+  },
+  {
+    "id": 211,
+    "title": "Test Last Mon Aug -1",
+    "event": "Test Last Mon Aug -1",
+    "month": "AUGUST",
+    "day": null,
+    "logic": "movable_nth",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": {
+      "n": "last",
+      "weekday": 1,
+      "month": 8
+    }
+  },
+  {
+    "id": 212,
+    "title": "Test Last Mon Aug str",
+    "event": "Test Last Mon Aug str",
+    "month": "AUGUST",
+    "day": null,
+    "logic": "movable_nth",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": {
+      "n": "last",
+      "weekday": 1,
+      "month": 8
+    }
+  },
+  {
+    "id": 213,
+    "title": "Br Andrew Feb29 Test",
+    "event": "Br Andrew Feb29 Test",
+    "month": "FEBRUARY",
+    "day": 29,
+    "logic": "fixed",
+    "isUndated": false,
+    "category": "DLSU",
+    "rule": null
+  },
+  {
+    "id": 214,
+    "title": "Undated Test For Basket",
+    "event": "Undated Test For Basket",
+    "month": null,
+    "day": null,
+    "logic": "undated",
+    "isUndated": true,
+    "category": "TLS",
+    "rule": null
+  },
+  {
+    "id": 215,
+    "title": "My Custom Test Event 123",
+    "event": "My Custom Test Event 123",
+    "month": null,
+    "day": null,
+    "logic": "undated",
+    "isUndated": true,
+    "category": "TLS",
+    "rule": null
+  },
+  {
+    "id": 216,
+    "title": "Dated Sept 15 Event",
+    "event": "Dated Sept 15 Event",
+    "month": "SEPTEMBER",
+    "day": 15,
+    "logic": "fixed",
+    "isUndated": false,
+    "category": "MANILA",
+    "rule": null
+  },
+  {
+    "id": 217,
+    "title": "Test Fixed Month June",
+    "event": "Test Fixed Month June",
+    "month": "JUNE",
+    "day": null,
+    "logic": "fixed_month",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": null
+  },
+  {
+    "id": 218,
+    "title": "Test 2nd Sun May",
+    "event": "Test 2nd Sun May",
+    "month": "MAY",
+    "day": null,
+    "logic": "movable_nth",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": {
+      "n": 2,
+      "weekday": 0,
+      "month": 5
+    }
+  },
+  {
+    "id": 219,
+    "title": "Test Last Mon Aug -1",
+    "event": "Test Last Mon Aug -1",
+    "month": "AUGUST",
+    "day": null,
+    "logic": "movable_nth",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": {
+      "n": "last",
+      "weekday": 1,
+      "month": 8
+    }
+  },
+  {
+    "id": 220,
+    "title": "Test Last Mon Aug str",
+    "event": "Test Last Mon Aug str",
+    "month": "AUGUST",
+    "day": null,
+    "logic": "movable_nth",
+    "isUndated": false,
+    "category": "TLS",
+    "rule": {
+      "n": "last",
+      "weekday": 1,
+      "month": 8
+    }
+  },
+  {
+    "id": 221,
+    "title": "Br Andrew Feb29 Test",
+    "event": "Br Andrew Feb29 Test",
+    "month": "FEBRUARY",
+    "day": 29,
+    "logic": "fixed",
+    "isUndated": false,
+    "category": "DLSU",
+    "rule": null
+  },
+  {
+    "id": 222,
+    "title": "Undated Test For Basket",
+    "event": "Undated Test For Basket",
+    "month": null,
+    "day": null,
+    "logic": "undated",
+    "isUndated": true,
+    "category": "TLS",
+    "rule": null
   }
 ]

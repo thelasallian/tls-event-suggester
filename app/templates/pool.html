@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pool — All Events</title>
+<style>
+:root{--bg:#f8f7f5;--card:#fff;--ink:#1a1a1a;--muted:#6b6b6b;--accent:#1a3a2a;--line:#e5e5e5}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+header{padding:16px 24px;background:var(--card);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+h1{margin:0;font-size:18px}
+.container{max-width:1100px;margin:24px auto;padding:0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+.small{font-size:13px;color:var(--muted)}
+.badge{font-size:11px;padding:3px 7px;border-radius:999px;border:1px solid var(--line)}
+.btn{padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);cursor:pointer;font-size:13px}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+input,select{padding:6px;border:1px solid var(--line);border-radius:8px;font-size:13px}
+.row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;align-items:end}
+</style>
+</head>
+<body>
+<header>
+<div><h1>Pool — All Events ({{ events|length }})</h1><div class="small"><a href="/">Back to basket</a> • {{ email }}</div></div>
+<div><a href="/{{ now.year }}/{{ now.month }}/table" class="small">View table</a></div>
+</header>
+<div class="container">
+<div class="card">
+<h2 style="margin:0 0 8px 0">All events — edit name & rules</h2>
+<div class="small">Changes persist to <code>seed.json</code> and affect all months. Logic: fixed, fixed_month, movable_nth (1/2/3/4/last/-1), undated.</div>
+</div>
+{% for ev in events %}
+<div class="card">
+<form method="post" action="/pool/edit" style="display:grid;gap:8px">
+<input type="hidden" name="event_id" value="{{ ev.id }}">
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<div style="flex:2;min-width:200px"><label class="small">Title</label><br><input name="title" value="{{ ev.title }}" required style="width:100%"></div>
+<div><label class="small">Category</label><br><select name="category"><option {% if ev.category=='GLOBAL' %}selected{% endif %}>GLOBAL</option><option {% if ev.category=='PHILIPPINES' %}selected{% endif %}>PHILIPPINES</option><option {% if ev.category=='MANILA' %}selected{% endif %}>MANILA</option><option {% if ev.category=='DLSU' %}selected{% endif %}>DLSU</option><option {% if ev.category=='TLS' %}selected{% endif %}>TLS</option><option {% if ev.category=='RELIGIOUS' %}selected{% endif %}>RELIGIOUS</option></select></div>
+<div><label class="small">Logic</label><br><select name="logic"><option value="fixed" {% if ev.logic=='fixed' %}selected{% endif %}>fixed</option><option value="fixed_month" {% if ev.logic=='fixed_month' %}selected{% endif %}>fixed_month</option><option value="movable_nth" {% if ev.logic=='movable_nth' %}selected{% endif %}>movable_nth</option><option value="undated" {% if ev.logic=='undated' %}selected{% endif %}>undated</option></select></div>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<div><label class="small">Month 1-12 (or blank)</label><br><input name="month" type="number" min="1" max="12" value="{{ ev.month or '' }}" style="width:90px"></div>
+<div><label class="small">Day 1-31</label><br><input name="day" type="number" min="1" max="31" value="{{ ev.day or '' }}" style="width:90px"></div>
+<div><label class="small">Nth (for movable_nth)</label><br><select name="nth"><option value="">—</option><option value="1" {% if ev.raw and ev.raw.rule and ev.raw.rule.n==1 %}selected{% endif %}>1st</option><option value="2" {% if ev.raw and ev.raw.rule and ev.raw.rule.n==2 %}selected{% endif %}>2nd</option><option value="3" {% if ev.raw and ev.raw.rule and ev.raw.rule.n==3 %}selected{% endif %}>3rd</option><option value="4" {% if ev.raw and ev.raw.rule and ev.raw.rule.n==4 %}selected{% endif %}>4th</option><option value="last" {% if ev.raw and ev.raw.rule and ev.raw.rule.n=='last' %}selected{% endif %}>Last</option><option value="-1" {% if ev.raw and ev.raw.rule and ev.raw.rule.n==-1 %}selected{% endif %}>-1</option></select></div>
+<div><label class="small">Weekday 0=Sun</label><br><select name="weekday"><option value="">—</option><option value="0" {% if ev.raw and ev.raw.rule and ev.raw.rule.weekday==0 %}selected{% endif %}>Sun</option><option value="1" {% if ev.raw and ev.raw.rule and ev.raw.rule.weekday==1 %}selected{% endif %}>Mon</option><option value="2" {% if ev.raw and ev.raw.rule and ev.raw.rule.weekday==2 %}selected{% endif %}>Tue</option><option value="3" {% if ev.raw and ev.raw.rule and ev.raw.rule.weekday==3 %}selected{% endif %}>Wed</option><option value="4" {% if ev.raw and ev.raw.rule and ev.raw.rule.weekday==4 %}selected{% endif %}>Thu</option><option value="5" {% if ev.raw and ev.raw.rule and ev.raw.rule.weekday==5 %}selected{% endif %}>Fri</option><option value="6" {% if ev.raw and ev.raw.rule and ev.raw.rule.weekday==6 %}selected{% endif %}>Sat</option></select></div>
+<div><label class="small">Of Month (for nth)</label><br><input name="nth_month" type="number" min="1" max="12" value="{{ ev.raw.rule.month if ev.raw and ev.raw.rule and ev.raw.rule.month else '' }}" style="width:90px"></div>
+</div>
+<div><span class="small">ID {{ ev.id }} • {{ ev.logic }} • {% if ev.isUndated %}undated{% else %}{{ ev.month }}/{{ ev.day or '' }}{% endif %}</span></div>
+<button class="btn primary" type="submit">Save</button>
+<a href="/pool/delete?event_id={{ ev.id }}" class="btn" onclick="return confirm('Delete?')">Delete</a>
+</form>
+</div>
+{% endfor %}
+</div>
+</body>
+</html>
