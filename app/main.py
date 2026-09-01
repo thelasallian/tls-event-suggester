@@ -205,6 +205,90 @@ def api_pool():
     und = get_undated()
     return JSONResponse([{"id": e["id"], "title": e["title"], "category": e["category"]} for e in und])
 
+@app.post("/api/import")
+async def api_import(request: Request):
+    # Programmatic ingest: POST JSON array or {events:[...]} — each entry: {title, month, day, logic, category, rule, founded_year}
+    # Auth via X-authentik-email (same as other writes) — still behind Authentik, but usable via curl with session cookie or service token
+    global ALL
+    try:
+        body = await request.json()
+    except:
+        raise HTTPException(status_code=400, detail="Expected JSON array or {events:[...]}")
+    items = body if isinstance(body, list) else body.get("events") or body.get("data") or []
+    if not isinstance(items, list) or not items:
+        raise HTTPException(status_code=400, detail="Empty list")
+    # dedupe by normalized title
+    existing_titles = { (e.get("title") or e.get("event") or "").strip().lower() for e in ALL }
+    # also load current seed for persistence
+    try:
+        with open(SEED_PATH) as f:
+            data = json.load(f)
+        is_list = isinstance(data, list)
+    except:
+        data, is_list = [], True
+    added, skipped = 0, 0
+    for it in items:
+        title = (it.get("title") or it.get("event") or "").strip()
+        if not title or title.lower() in existing_titles:
+            skipped += 1
+            continue
+        # normalize month (accept int or JANUARY string)
+        m = it.get("month")
+        if isinstance(m, str) and m.strip():
+            try: m = {"JANUARY":1,"FEBRUARY":2,"MARCH":3,"APRIL":4,"MAY":5,"JUNE":6,"JULY":7,"AUGUST":8,"SEPTEMBER":9,"OCTOBER":10,"NOVEMBER":11,"DECEMBER":12}[m.upper().strip()]
+            except: m = None
+        elif isinstance(m, int):
+            pass
+        else:
+            m = None
+            try:
+                if it.get("month") not in (None, ""): m = int(it.get("month"))
+            except: m = None
+        # build event
+        logic = (it.get("logic") or "fixed").strip()
+        # for undated, month stays None
+        if logic == "undated":
+            m = None
+        payload = {
+            "id": len(data)+1 if is_list else 0,
+            "title": title,
+            "event": title,
+            "month": ["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"][m-1] if isinstance(m,int) and 1<=m<=12 else m,
+            "day": it.get("day"),
+            "logic": logic,
+            "category": it.get("category") or "GLOBAL",
+            "rule": it.get("rule"),
+            "founded_year": it.get("founded_year") or it.get("foundedYear"),
+            "foundedYear": it.get("founded_year") or it.get("foundedYear"),
+        }
+        # also handle rule for movable_nth
+        if logic == "movable_nth" and it.get("rule"):
+            payload["rule"] = it.get("rule")
+            # ensure month is set from rule if not already
+            if not m and isinstance(it["rule"], dict) and it["rule"].get("month"):
+                payload["month"] = it["rule"]["month"]
+        # append to seed
+        if is_list:
+            data.append(payload)
+        else:
+            data["existing"].append(payload)
+        # append to ALL in-memory
+        idx = len(ALL)
+        ALL.append({"id": f"e{idx}", "title": title, "month": m, "day": payload.get("day"), "logic": logic, "foundedYear": payload.get("founded_year"), "category": payload["category"], "isUndated": logic=="undated" or m is None, "raw": payload})
+        existing_titles.add(title.lower())
+        added += 1
+    # persist (replaces, not append-only — but deduped, so safe to overwrite)
+    with open(SEED_PATH, "w") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+    # also keep app/seed.json in sync if different path
+    try:
+        alt = pathlib.Path(__file__).parent / "seed.json"
+        if alt != SEED_PATH and alt.exists():
+            import shutil
+            shutil.copy(SEED_PATH, alt)
+    except: pass
+    return JSONResponse({"added": added, "skipped": skipped, "total": len(data) if is_list else len(data.get("existing",[]))})
+
 @app.get("/", response_class=RedirectResponse)
 def root(request: Request):
     now = datetime.datetime.now()
